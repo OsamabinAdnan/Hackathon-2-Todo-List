@@ -128,7 +128,7 @@ As a user, I want to permanently delete a task so that I can remove tasks that a
 ### Edge Cases
 
 - **Empty title validation**: Title field rejects empty strings, whitespace-only strings, and strings exceeding 100 characters
-- **Description length**: Description field accepts up to 500 characters; longer input is truncated or rejected with validation message
+- **Description length**: Description field accepts up to 500 characters; input exceeding 500 chars is REJECTED with validation message "Description cannot exceed 500 characters"; in list view, descriptions are truncated to 50 chars with "..." for display
 - **Rapid toggles**: Multiple quick Space presses on the same task are handled correctly without race conditions
 - **Delete during edit**: If a task is deleted while its edit modal is open (edge case for future multi-user), handle gracefully
 - **ID generation**: IDs remain unique and sequential even after deletions (no ID reuse)
