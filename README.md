@@ -1,2 +1,27 @@
-# Hackathon-2-Todo-List-
-Multi phases Todo list hackathon
+# Hackathon-II
+
+### Documentation
+
+Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnqG9uew-rEabQc5H8u3VmEN3OaJ_A1ZVVr9vY).
+
+## Phase 1 (In Progress)
+
+- Build a Todo In-Memory Python Console App
+
+## Phase 2 (Not Started Yet)
+
+- Build a Todo Full-Stack Web Application
+
+### Phase 3 (Not Started Yet)
+
+- Build a Todo AI-powered Chatbot Application
+
+### Phase 4 (Not Started Yet)
+
+- Build a Todo Application with local kubernetes deployment.
+
+### Phase 5 (Not Started Yet)
+
+- Build a Advance Todo Application with local kubernetes setup and production-ready deployment on cloud.
+
+These projects are part of a hackathon demonstration of spec-driven development, given by [panaverity](https://panaversity.org/).
