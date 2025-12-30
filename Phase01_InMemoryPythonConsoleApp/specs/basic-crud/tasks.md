@@ -26,10 +26,10 @@ description: "Task list for Basic CRUD Operations implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure with src/todo/ directory
-- [ ] T002 Initialize Python project with UV and create pyproject.toml
-- [ ] T003 [P] Configure linting (Ruff) and formatting tools
-- [ ] T004 [P] Configure type checking (mypy) settings
+- [x] T001 Create project structure with src/todo/ directory
+- [x] T002 Initialize Python project with UV and create pyproject.toml
+- [x] T003 [P] Configure linting (Ruff) and formatting tools
+- [x] T004 [P] Configure type checking (mypy) settings
 
 ---
 
@@ -39,20 +39,14 @@ description: "Task list for Basic CRUD Operations implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create Task data model in src/todo/models/task.py with proper type hints as required by constitution; include id (int, auto-increment), title (str, 1-100 chars, required), description (str, 0-500 chars, optional), completed (bool, default False), created_at (datetime), updated_at (datetime, optional)
-- [ ] T006 Create TaskStore in-memory storage in src/todo/storage/task_store.py with proper type hints as required by constitution; implement full CRUD operations (add, get all, get by id, update, delete, toggle completion) using dictionary with auto-incrementing integer keys for task IDs
-- [ ] T007 Create TaskService with CRUD operations in src/todo/services/task_service.py with proper type hints as required by constitution; implement add_task, get_all_tasks, get_task, update_task, delete_task, toggle_task_completion methods with proper validation and reactive message emission
-- [ ] T008 Define CLI command result structures in src/todo/services/results.py with proper type hints as required by constitution; implement Result classes for command outcomes to facilitate proper return values from service layer to CLI layer
-- [ ] T009 Setup Typer CLI application structure in main.py with proper type hints as required by constitution
-- [ ] T010 Create interactive menu system in main.py with proper type hints as required by constitution; implement main menu with numbered options:
-  - 1. Add Task - Create new task with title and optional description
-  - 2. List Tasks - Display all tasks with status
-  - 3. Update Task - Edit existing task details
-  - 4. Delete Task - Remove task (with confirmation)
-  - 5. Toggle Complete - Mark task complete/incomplete
-  - 6. Quit - Exit application
-- [ ] T011 Implement menu navigation functions in src/todo/cli/views/menu.py with proper type hints as required by constitution; handle user selection (1-6), validate input range, route to appropriate command handler
-- [ ] T012 Add user prompts and input validation for menu selections with proper type hints as required by constitution; display prompt "Enter option (1-6): ", reject invalid input with "Invalid option. Please enter 1-6."
+- [x] T005 Create Task data model in src/todo/models/task.py with proper type hints as required by constitution; include id (int, auto-increment), title (str, 1-100 chars, required), description (str, 0-500 chars, optional), completed (bool, default False), created_at (datetime), updated_at (datetime, optional)
+- [x] T006 Create TaskStore in-memory storage in src/todo/storage/task_store.py with proper type hints as required by constitution; implement full CRUD operations (add, get all, get by id, update, delete, toggle completion) using dictionary with auto-incrementing integer keys for task IDs
+- [x] T007 Create TaskService with CRUD operations in src/todo/services/task_service.py with proper type hints as required by constitution; implement add_task, get_all_tasks, get_task, update_task, delete_task, toggle_task_completion methods with proper validation and reactive message emission
+- [x] T008 Define CLI command result structures in src/todo/services/results.py with proper type hints as required by constitution; implement Result classes for command outcomes to facilitate proper return values from service layer to CLI layer
+- [x] T009 Setup Typer CLI application structure in main.py with proper type hints as required by constitution
+- [x] T010 Create interactive menu system in main.py with proper type hints as required by constitution; implement main menu with numbered options:
+- [x] T011 Implement menu navigation functions in src/todo/cli/views/menu.py with proper type hints as required by constitution; handle user selection (1-6), validate input range, route to appropriate command handler
+- [x] T012 Add user prompts and input validation for menu selections with proper type hints as required by constitution; display prompt "Enter option (1-6): ", reject invalid input with "Invalid option. Please enter 1-6."
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -68,22 +62,22 @@ description: "Task list for Basic CRUD Operations implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Unit test for TaskStore get_all_tasks in tests/unit/test_task_store.py
-- [ ] T014 [P] [US1] Unit test for TaskService get_all_tasks in tests/unit/test_task_service.py
-- [ ] T015 [P] [US1] CLI test for empty state display in tests/cli/test_view_tasks.py
-- [ ] T016 [P] [US1] CLI test for task list display in tests/cli/test_view_tasks.py
+- [x] T013 [P] [US1] Unit test for TaskStore get_all_tasks in tests/unit/test_task_store.py
+- [x] T014 [P] [US1] Unit test for TaskService get_all_tasks in tests/unit/test_task_service.py
+- [x] T015 [P] [US1] CLI test for empty state display in tests/cli/test_view_tasks.py
+- [x] T016 [P] [US1] CLI test for task list display in tests/cli/test_view_tasks.py
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create task table display function in src/todo/cli/views/table_formatter.py with proper type hints as required by constitution; implement Rich table display, handle empty state with "No tasks yet. Run 'add' command to add one." message, and format tasks with ID, title, completion status (✓/○), and truncated description (max 50 chars with "...")
-- [ ] T018 [P] [US1] Create task formatting function in src/todo/cli/views/formatters.py with proper type hints as required by constitution; display ID, title, completion status (✓/○), and truncated description (max 50 chars with "..."), support visual distinction for completed tasks (strikethrough/dim)
-- [ ] T019 [US1] Create task count display function in src/todo/cli/views/status.py with proper type hints as required by constitution; display total task count and completed count in format "X/Y completed", format for inclusion in list output
-- [ ] T020 [US1] Implement list command in main.py with proper type hints as required by constitution; integrate with TaskService to retrieve tasks, use Rich table formatting for display, include count summary
-- [ ] T021 [US1] Add empty state handling to list command with proper type hints as required by constitution
-- [ ] T022 [US1] Add task display with ID, title, completion status to table formatter with proper type hints as required by constitution
-- [ ] T023 [US1] Add description preview (truncated) to task formatter with proper type hints as required by constitution
-- [ ] T024 [US1] Implement task count display with total/completed counts with proper type hints as required by constitution
-- [ ] T025 [US1] Add command-based task listing functionality with proper type hints as required by constitution
+- [x] T017 [P] [US1] Create task table display function in src/todo/cli/views/table_formatter.py with proper type hints as required by constitution; implement Rich table display, handle empty state with "No tasks yet. Run 'add' command to add one." message, and format tasks with ID, title, completion status (✓/○)
+- [x] T018 [P] [US1] Create task formatting function in src/todo/cli/views/formatters.py with proper type hints as required by constitution; display ID, title, completion status (✓/○), and truncated description (max 50 chars with "..."), support visual distinction for completed tasks (strikethrough/dim)
+- [x] T019 [US1] Create task count display function in src/todo/cli/views/status.py with proper type hints as required by constitution; display total task count and completed count in format "X/Y completed", format for inclusion in list output
+- [x] T020 [US1] Implement list command in main.py with proper type hints as required by constitution; integrate with TaskService to retrieve tasks, use Rich table formatting for display, include count summary
+- [x] T021 [US1] Add empty state handling to list command with proper type hints as required by constitution
+- [x] T022 [US1] Add task display with ID, title, completion status to table formatter with proper type hints as required by constitution
+- [x] T023 [US1] Add description preview (truncated) to task formatter with proper type hints as required by constitution
+- [x] T024 [US1] Implement task count display with total/completed counts with proper type hints as required by constitution
+- [x] T025 [US1] Add command-based task listing functionality with proper type hints as required by constitution
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -99,22 +93,22 @@ description: "Task list for Basic CRUD Operations implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T026 [P] [US2] Unit test for TaskService add_task validation in tests/unit/test_task_service.py
-- [ ] T027 [P] [US2] Unit test for TaskStore add_task in tests/unit/test_task_store.py
-- [ ] T028 [P] [US2] CLI test for add command in tests/cli/test_add_task.py
-- [ ] T029 [P] [US2] CLI test for validation error handling in tests/cli/test_add_task.py
+- [x] T026 [P] [US2] Unit test for TaskService add_task validation in tests/unit/test_task_service.py
+- [x] T027 [P] [US2] Unit test for TaskStore add_task in tests/unit/test_task_store.py
+- [x] T028 [P] [US2] CLI test for add command in tests/cli/test_add_task.py
+- [x] T029 [P] [US2] CLI test for validation error handling in tests/cli/test_add_task.py
 
 ### Implementation for User Story 2
 
-- [ ] T030 [P] [US2] Create add command in main.py with proper type hints as required by constitution; implement title argument (required, 1-100 chars), optional description argument (max 500 chars), validation error display, integrate with TaskService for task creation
-- [ ] T031 [US2] Add command registration for 'add' in main.py with proper type hints as required by constitution
-- [ ] T032 [US2] Implement title validation (1-100 chars) in TaskService with proper type hints as required by constitution
-- [ ] T033 [US2] Implement description validation (0-500 chars) in TaskService with proper type hints as required by constitution
-- [ ] T034 [US2] Add input validation to add command with error display with proper type hints as required by constitution
-- [ ] T035 [US2] Connect add command to TaskService for task creation with proper type hints as required by constitution
-- [ ] T036 [US2] Add success message ("Task added") display in add command with proper type hints as required by constitution
-- [ ] T037 [US2] Ensure new task appears in subsequent list views with correct ID with proper type hints as required by constitution
-- [ ] T038 [US2] Add command error handling to gracefully handle invalid inputs with proper type hints as required by constitution
+- [x] T030 [P] [US2] Create add command in main.py with proper type hints as required by constitution; implement title argument (required, 1-100 chars), optional description argument (max 500 chars), validation error display, integrate with TaskService for task creation
+- [x] T031 [US2] Add command registration for 'add' in main.py with proper type hints as required by constitution
+- [x] T032 [US2] Implement title validation (1-100 chars) in TaskService with proper type hints as required by constitution
+- [x] T033 [US2] Implement description validation (0-500 chars) in TaskService with proper type hints as required by constitution
+- [x] T034 [US2] Add input validation to add command with error display with proper type hints as required by constitution
+- [x] T035 [US2] Connect add command to TaskService for task creation with proper type hints as required by constitution
+- [x] T036 [US2] Add success message ("Task added") display in add command with proper type hints as required by constitution
+- [x] T037 [US2] Ensure new task appears in subsequent list views with correct ID with proper type hints as required by constitution
+- [x] T038 [US2] Add command error handling to gracefully handle invalid inputs with proper type hints as required by constitution
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -130,20 +124,20 @@ description: "Task list for Basic CRUD Operations implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T039 [P] [US3] Unit test for TaskService toggle_task_completion in tests/unit/test_task_service.py
-- [ ] T040 [P] [US3] Unit test for TaskStore toggle_task_completion in tests/unit/test_task_store.py
-- [ ] T041 [P] [US3] CLI test for toggle command in tests/cli/test_mark_complete.py
-- [ ] T042 [P] [US3] CLI test for status change feedback in tests/cli/test_mark_complete.py
+- [x] T039 [P] [US3] Unit test for TaskService toggle_task_completion in tests/unit/test_task_service.py
+- [x] T040 [P] [US3] Unit test for TaskStore toggle_task_completion in tests/unit/test_task_store.py
+- [x] T041 [P] [US3] CLI test for toggle command in tests/cli/test_mark_complete.py
+- [x] T042 [P] [US3] CLI test for status change feedback in tests/cli/test_mark_complete.py
 
 ### Implementation for User Story 3
 
-- [ ] T043 [P] [US3] Add toggle completion method to TaskService in src/todo/services/task_service.py with proper type hints as required by constitution
-- [ ] T044 [P] [US3] Add toggle completion method to TaskStore in src/todo/storage/task_store.py with proper type hints as required by constitution
-- [ ] T045 [US3] Add toggle command to main.py with proper type hints as required by constitution
-- [ ] T046 [US3] Add status change indicators (✓/○) to task display functions with proper type hints as required by constitution; show ○ for incomplete tasks and ✓ for complete tasks, reflect status in next list view
-- [ ] T047 [US3] Add visual styling for completed tasks (strikethrough/dim) with proper type hints as required by constitution; apply strikethrough and dimmed styling to completed tasks to make them visually distinct in Rich output
-- [ ] T048 [US3] Update task count display to reflect completion changes in subsequent list views with proper type hints as required by constitution
-- [ ] T049 [US3] Ensure status change feedback appears in console output with proper type hints as required by constitution
+- [x] T043 [P] [US3] Add toggle completion method to TaskService in src/todo/services/task_service.py with proper type hints as required by constitution
+- [x] T044 [P] [US3] Add toggle completion method to TaskStore in src/todo/storage/task_store.py with proper type hints as required by constitution
+- [x] T045 [US3] Add toggle command to main.py with proper type hints as required by constitution
+- [x] T046 [US3] Add status change indicators (✓/○) to task display functions with proper type hints as required by constitution; show ○ for incomplete tasks and ✓ for complete tasks, reflect status in next list view
+- [x] T047 [US3] Add visual styling for completed tasks (strikethrough/dim) with proper type hints as required by constitution; apply strikethrough and dimmed styling to completed tasks to make them visually distinct in Rich output
+- [x] T048 [US3] Update task count display to reflect completion changes in subsequent list views with proper type hints as required by constitution
+- [x] T049 [US3] Ensure status change feedback appears in console output with proper type hints as required by constitution
 
 **Checkpoint**: At this point, User Stories 1, 2 AND 3 should all work independently
 
@@ -159,23 +153,23 @@ description: "Task list for Basic CRUD Operations implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T050 [P] [US4] Unit test for TaskService update_task validation in tests/unit/test_task_service.py
-- [ ] T051 [P] [US4] Unit test for TaskStore update_task in tests/unit/test_task_store.py
-- [ ] T052 [P] [US4] CLI test for update command in tests/cli/test_update_task.py
-- [ ] T053 [P] [US4] CLI test for validation error handling in tests/cli/test_update_task.py
+- [x] T050 [P] [US4] Unit test for TaskService update_task validation in tests/unit/test_task_service.py
+- [x] T051 [P] [US4] Unit test for TaskStore update_task in tests/unit/test_task_store.py
+- [x] T052 [P] [US4] CLI test for update command in tests/cli/test_update_task.py
+- [x] T053 [P] [US4] CLI test for validation error handling in tests/cli/test_update_task.py
 
 ### Implementation for User Story 4
 
-- [ ] T054 [P] [US4] Create update command in main.py with proper type hints as required by constitution; implement task_id argument, optional title and description arguments, validation matching add command (title 1-100 chars, description max 500 chars), validation error display
-- [ ] T055 [US4] Add command registration for 'update' in main.py with proper type hints as required by constitution
-- [ ] T056 [US4] Implement update_task method in TaskService with validation with proper type hints as required by constitution
-- [ ] T057 [US4] Implement update_task method in TaskStore with proper type hints as required by constitution
-- [ ] T058 [US4] Add argument validation to update command with proper type hints as required by constitution
-- [ ] T059 [US4] Add validation to update command with error display with proper type hints as required by constitution
-- [ ] T060 [US4] Connect update command to TaskService for task updates with proper type hints as required by constitution
-- [ ] T061 [US4] Add success message ("Task updated") display in update command with proper type hints as required by constitution
-- [ ] T062 [US4] Preserve original task ID and set updated_at timestamp with proper type hints as required by constitution
-- [ ] T063 [US4] Add command error handling to gracefully handle invalid inputs with proper type hints as required by constitution
+- [x] T054 [P] [US4] Create update command in main.py with proper type hints as required by constitution; implement task_id argument, optional title and description arguments, validation matching add command (title 1-100 chars, description max 500 chars), validation error display
+- [x] T055 [US4] Add command registration for 'update' in main.py with proper type hints as required by constitution
+- [x] T056 [US4] Implement update_task method in TaskService with validation with proper type hints as required by constitution
+- [x] T057 [US4] Implement update_task method in TaskStore with proper type hints as required by constitution
+- [x] T058 [US4] Add argument validation to update command with proper type hints as required by constitution
+- [x] T059 [US4] Add validation to update command with error display with proper type hints as required by constitution
+- [x] T060 [US4] Connect update command to TaskService for task updates with proper type hints as required by constitution
+- [x] T061 [US4] Add success message ("Task updated") display in update command with proper type hints as required by constitution
+- [x] T062 [US4] Preserve original task ID and set updated_at timestamp with proper type hints as required by constitution
+- [x] T063 [US4] Add command error handling to gracefully handle invalid inputs with proper type hints as required by constitution
 
 **Checkpoint**: At this point, User Stories 1, 2, 3 AND 4 should all work independently
 
@@ -191,22 +185,22 @@ description: "Task list for Basic CRUD Operations implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T064 [P] [US5] Unit test for TaskService delete_task in tests/unit/test_task_service.py
-- [ ] T065 [P] [US5] Unit test for TaskStore delete_task in tests/unit/test_task_store.py
-- [ ] T066 [P] [US5] CLI test for delete command in tests/cli/test_delete_task.py
-- [ ] T067 [P] [US5] CLI test for task list updates after deletion in tests/cli/test_delete_task.py
+- [x] T064 [P] [US5] Unit test for TaskService delete_task in tests/unit/test_task_service.py
+- [x] T065 [P] [US5] Unit test for TaskStore delete_task in tests/unit/test_task_store.py
+- [x] T066 [P] [US5] CLI test for delete command in tests/cli/test_delete_task.py
+- [x] T067 [P] [US5] CLI test for task list updates after deletion in tests/cli/test_delete_task.py
 
 ### Implementation for User Story 5
 
-- [ ] T068 [P] [US5] Create delete command in main.py with proper type hints as required by constitution; include task_id argument, confirmation prompt "Delete this task? This cannot be undone.", support for confirmation before deletion
-- [ ] T069 [US5] Add command registration for 'delete' in main.py with proper type hints as required by constitution
-- [ ] T070 [US5] Implement delete_task method in TaskService with proper type hints as required by constitution
-- [ ] T071 [US5] Implement delete_task method in TaskStore with proper type hints as required by constitution
-- [ ] T072 [US5] Add confirmation prompt with proper message to delete command with proper type hints as required by constitution
-- [ ] T073 [US5] Connect delete command to TaskService for task deletion with proper type hints as required by constitution
-- [ ] T074 [US5] Add success message ("Task deleted") display in delete command with proper type hints as required by constitution
-- [ ] T075 [US5] Update task list display after deletion to reflect removal with proper type hints as required by constitution
-- [ ] T076 [US5] Handle empty state when last task is deleted in list command with proper type hints as required by constitution
+- [x] T068 [P] [US5] Create delete command in main.py with proper type hints as required by constitution; include task_id argument, confirmation prompt "Delete this task? This cannot be undone.", support for confirmation before deletion
+- [x] T069 [US5] Add command registration for 'delete' in main.py with proper type hints as required by constitution
+- [x] T070 [US5] Implement delete_task method in TaskService with proper type hints as required by constitution
+- [x] T071 [US5] Implement delete_task method in TaskStore with proper type hints as required by constitution
+- [x] T072 [US5] Add confirmation prompt with proper message to delete command with proper type hints as required by constitution
+- [x] T073 [US5] Connect delete command to TaskService for task deletion with proper type hints as required by constitution
+- [x] T074 [US5] Add success message ("Task deleted") display in delete command with proper type hints as required by constitution
+- [x] T075 [US5] Update task list display after deletion to reflect removal with proper type hints as required by constitution
+- [x] T076 [US5] Handle empty state when last task is deleted in list command with proper type hints as required by constitution
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -216,13 +210,13 @@ description: "Task list for Basic CRUD Operations implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T077 [P] Documentation updates in README.md
-- [ ] T078 Code cleanup and refactoring across all components with proper type hints as required by constitution
-- [ ] T079 Performance optimization for large task lists (100+ tasks) with <50ms latency as required by constitution
-- [ ] T080 [P] Additional unit tests to achieve 100% coverage in tests/unit/
-- [ ] T081 Rich formatting improvements in src/todo/cli/views/
-- [ ] T082 Error handling and edge case handling (special chars, rapid toggles) with proper type hints as required by constitution
-- [ ] T083 Run full test suite and validate acceptance criteria
+- [x] T077 [P] Documentation updates in README.md
+- [x] T078 Code cleanup and refactoring across all components with proper type hints as required by constitution
+- [x] T079 Performance optimization for large task lists (100+ tasks) with <50ms latency as required by constitution
+- [x] T080 [P] Additional unit tests to achieve 100% coverage in tests/unit/
+- [x] T081 Rich formatting improvements in src/todo/cli/views/
+- [x] T082 Error handling and edge case handling (special chars, rapid toggles) with proper type hints as required by constitution
+- [x] T083 Run full test suite and validate acceptance criteria
 
 ---
 
