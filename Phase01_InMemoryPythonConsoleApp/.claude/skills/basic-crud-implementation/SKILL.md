@@ -1,6 +1,6 @@
 ---
 name: basic-crud-implementation
-description: Implement CRUD operations (Add, Delete, Update, View, Mark Complete) for the Todo app with robust in-memory dict management. Use this skill when implementing TaskService methods, writing CRUD logic, or creating the service layer. Provides Python patterns for create/read/update/delete with proper error handling, return types, and constitution compliance.
+description: Implement CRUD operations (Add, Delete, Update, View, Mark Complete) for the Todo app with robust in-memory dict management. Use this skill when implementing TaskService methods, writing CRUD logic, or creating the service layer for CLI applications. Provides Python patterns for create/read/update/delete with proper error handling, return types, and constitution compliance.
 ---
 
 # Basic CRUD Implementation
@@ -57,8 +57,8 @@ class TaskService:
         Create a new task and add to storage.
 
         Args:
-            title: Task title (required, 1-200 chars)
-            description: Optional task description
+            title: Task title (required, 1-100 chars)
+            description: Optional task description (max 500 chars)
 
         Returns:
             The created Task instance
@@ -70,12 +70,22 @@ class TaskService:
         title = title.strip()
         if not title:
             raise ValidationError("Title cannot be empty")
-        if len(title) > 200:
-            raise ValidationError("Title cannot exceed 200 characters")
+        if len(title) > 100:
+            raise ValidationError("Title cannot exceed 100 characters")
+
+        # Validate description
+        if len(description) > 500:
+            raise ValidationError("Description cannot exceed 500 characters")
+
+        # Generate auto-incrementing integer ID
+        if self._tasks:
+            next_id = max(int(task_id) for task_id in self._tasks.keys()) + 1
+        else:
+            next_id = 1
 
         # Create task with auto-generated id and timestamps
         task = Task(
-            id=str(uuid4()),
+            id=next_id,
             title=title,
             description=description,
             completed=False,
@@ -84,12 +94,12 @@ class TaskService:
         )
 
         # Store and return
-        self._tasks[task.id] = task
+        self._tasks[str(task.id)] = task
         return task
 
     # ==================== READ ====================
 
-    def get_task(self, task_id: str) -> Task:
+    def get_task(self, task_id: int) -> Task:
         """
         Retrieve a single task by ID.
 
@@ -102,7 +112,7 @@ class TaskService:
         Raises:
             TaskNotFoundError: If task_id does not exist
         """
-        task = self._tasks.get(task_id)
+        task = self._tasks.get(str(task_id))
         if task is None:
             raise TaskNotFoundError(f"Task not found: {task_id}")
         return task
@@ -124,9 +134,10 @@ class TaskService:
 
     def update_task(
         self,
-        task_id: str,
+        task_id: int,
         title: str | None = None,
         description: str | None = None,
+        completed: bool | None = None,
     ) -> Task:
         """
         Update task fields by ID.
@@ -135,6 +146,7 @@ class TaskService:
             task_id: The unique task identifier
             title: New title (optional)
             description: New description (optional)
+            completed: New completion status (optional)
 
         Returns:
             The updated Task instance
@@ -150,13 +162,19 @@ class TaskService:
             title = title.strip()
             if not title:
                 raise ValidationError("Title cannot be empty")
-            if len(title) > 200:
-                raise ValidationError("Title cannot exceed 200 characters")
+            if len(title) > 100:
+                raise ValidationError("Title cannot exceed 100 characters")
             task.title = title
 
         # Update description if provided
         if description is not None:
+            if len(description) > 500:
+                raise ValidationError("Description cannot exceed 500 characters")
             task.description = description
+
+        # Update completion status if provided
+        if completed is not None:
+            task.completed = completed
 
         # Update timestamp
         task.updated_at = datetime.now()
@@ -165,7 +183,7 @@ class TaskService:
 
     # ==================== DELETE ====================
 
-    def delete_task(self, task_id: str) -> bool:
+    def delete_task(self, task_id: int) -> bool:
         """
         Delete a task by ID.
 
@@ -178,15 +196,16 @@ class TaskService:
         Raises:
             TaskNotFoundError: If task_id does not exist
         """
-        if task_id not in self._tasks:
+        task_id_str = str(task_id)
+        if task_id_str not in self._tasks:
             raise TaskNotFoundError(f"Task not found: {task_id}")
 
-        del self._tasks[task_id]
+        del self._tasks[task_id_str]
         return True
 
     # ==================== MARK COMPLETE ====================
 
-    def toggle_complete(self, task_id: str) -> Task:
+    def toggle_complete(self, task_id: int) -> Task:
         """
         Toggle task completion status.
 
@@ -206,14 +225,14 @@ class TaskService:
 
         return task
 
-    def mark_complete(self, task_id: str) -> Task:
+    def mark_complete(self, task_id: int) -> Task:
         """Mark task as completed (sets completed=True)."""
         task = self.get_task(task_id)
         task.completed = True
         task.updated_at = datetime.now()
         return task
 
-    def mark_incomplete(self, task_id: str) -> Task:
+    def mark_incomplete(self, task_id: int) -> Task:
         """Mark task as incomplete (sets completed=False)."""
         task = self.get_task(task_id)
         task.completed = False
@@ -233,9 +252,9 @@ class TaskService:
         self._tasks.clear()
         return count
 
-    def task_exists(self, task_id: str) -> bool:
+    def task_exists(self, task_id: int) -> bool:
         """Check if a task exists without raising an error."""
-        return task_id in self._tasks
+        return str(task_id) in self._tasks
 ```
 
 ## Custom Exceptions
@@ -286,7 +305,7 @@ for task in tasks:
     print(f"{status} {task.title}")
 
 # Get single task
-task = service.get_task("some-uuid-here")
+task = service.get_task(1)  # Use integer ID
 print(f"Title: {task.title}")
 print(f"Completed: {task.completed}")
 ```
@@ -295,16 +314,20 @@ print(f"Completed: {task.completed}")
 
 ```python
 # Update title only
-task = service.update_task(task_id, title="New title")
+task = service.update_task(1, title="New title")
 
 # Update description only
-task = service.update_task(task_id, description="New description")
+task = service.update_task(1, description="New description")
 
-# Update both
+# Update completion status only
+task = service.update_task(1, completed=True)
+
+# Update all fields
 task = service.update_task(
-    task_id,
+    1,  # task_id
     title="Updated title",
-    description="Updated description"
+    description="Updated description",
+    completed=False
 )
 ```
 
@@ -312,7 +335,7 @@ task = service.update_task(
 
 ```python
 try:
-    service.delete_task(task_id)
+    service.delete_task(1)  # Use integer ID
     print("Task deleted successfully")
 except TaskNotFoundError:
     print("Task not found")
@@ -322,14 +345,14 @@ except TaskNotFoundError:
 
 ```python
 # Toggle completion status
-task = service.toggle_complete(task_id)
+task = service.toggle_complete(1)  # Use integer ID
 print(f"Now completed: {task.completed}")
 
 # Explicit mark complete
-task = service.mark_complete(task_id)
+task = service.mark_complete(1)
 
 # Explicit mark incomplete
-task = service.mark_incomplete(task_id)
+task = service.mark_incomplete(1)
 ```
 
 ## Error Handling Pattern

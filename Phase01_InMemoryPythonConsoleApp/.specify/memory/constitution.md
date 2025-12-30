@@ -92,21 +92,20 @@ Adherence to PEP 8 standards, descriptive naming, and modular architecture.
 
 **Rationale**: TDD ensures correctness and provides a safety net for refactoring.
 
-### V. Textual TUI Experience
+### V. Rich CLI Experience
 
-A full-featured Text User Interface (TUI) using Textual framework.
+A full-featured Command Line Interface (CLI) using Typer and Rich frameworks.
 
-- Use Textual framework for interactive terminal application
-- Use Rich (built into Textual) for styled output and formatting
-- Single running application with keyboard navigation
-- Real-time reactive updates when state changes
-- Mouse support for interactive elements
-- Responsive layout adapting to terminal size
-- Error messages MUST be displayed in-app (notifications/modals)
-- Success/failure states MUST be visually distinct with color coding
-- Keyboard shortcuts MUST be discoverable via footer or help screen
+- Use Typer framework for command structure and argument parsing
+- Use Rich for styled output, tables, and formatting
+- Interactive console menu system with numbered options or command-based interface
+- Real-time updates to console display when state changes
+- Formatted output with tables, colors, and progress indicators using Rich
+- Error messages MUST be displayed in console with appropriate formatting
+- Success/failure states MUST be visually distinct with color coding via Rich
+- Help system MUST be accessible via `--help` flags and interactive help command
 
-**Rationale**: A TUI provides superior user experience with real-time interaction, visual feedback, and modern terminal aesthetics.
+**Rationale**: A CLI provides superior user experience with clear command structure, formatted output, and familiar terminal interaction patterns.
 
 ### VI. UV Package Management (NON-NEGOTIABLE)
 
@@ -126,12 +125,12 @@ Exclusively use `uv` for dependency management and project initialization.
 |--------|----------|
 | **Language** | Python 3.13+ |
 | **Package Manager** | UV (exclusively) |
-| **TUI Framework** | Textual |
-| **Styling/Formatting** | Rich (via Textual) |
-| **Testing** | pytest + textual.testing |
+| **CLI Framework** | Typer |
+| **Styling/Formatting** | Rich |
+| **Testing** | pytest |
 | **Linting** | Ruff |
 | **Type Checking** | pyright or mypy |
-| **State Management** | In-memory (dict/list) with reactive bindings |
+| **State Management** | In-memory (dict/list) |
 
 ### Project Structure
 
@@ -143,72 +142,59 @@ Phase01_InMemoryPythonConsoleApp/
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
+├── main.py             # Main Typer CLI application
 ├── src/
 │   └── todo/
 │       ├── __init__.py
 │       ├── models/     # Data models (Task, Priority, etc.)
 │       ├── services/   # Business logic (TaskService)
-│       ├── storage/    # In-memory storage layer
-│       └── tui/        # Textual TUI application
-│           ├── __init__.py
-│           ├── app.py          # Main Textual App class
-│           ├── screens/        # Screen classes (Main, Help, etc.)
-│           ├── components/     # Reusable widgets (TaskList, TaskItem, etc.)
-│           ├── modals/         # Modal dialogs (Add, Edit, Confirm, etc.)
-│           └── styles/         # CSS files for styling
+│       └── storage/    # In-memory storage layer
 ├── tests/
 │   ├── unit/
 │   ├── integration/
-│   └── tui/            # TUI-specific tests using textual.testing
+│   └── cli/            # CLI-specific tests
 ├── pyproject.toml      # UV project configuration
 └── README.md           # One-command setup instructions
 ```
 
-### TUI Architecture Guidelines
+### CLI Architecture Guidelines
 
-#### Component Hierarchy
+#### Command Structure
 ```
-TodoApp (App)
-├── Header (title, clock)
-├── MainScreen (Screen)
-│   ├── Sidebar (filters, tags)
-│   ├── TaskListView (ScrollableContainer)
-│   │   └── TaskItem (Widget) × N
-│   └── StatusBar (task count, filter info)
-├── Footer (keyboard shortcuts)
-└── Modals (on-demand)
-    ├── AddTaskModal
-    ├── EditTaskModal
-    └── ConfirmDeleteModal
+main.py (Typer App)
+├── add_task()        # Add new task command
+├── list_tasks()      # List all tasks command
+├── update_task()     # Update task command
+├── delete_task()     # Delete task command
+├── toggle_task()     # Toggle completion command
+├── interactive_menu() # Interactive menu command
+└── help_command()    # Help command
 ```
 
-#### Reactive Data Flow
-- Services emit events on state changes
-- TUI components subscribe to relevant events
-- UI updates automatically via Textual's reactive system
-- No manual refresh required
+#### Data Flow
+- Commands call service layer methods
+- Services interact with storage layer
+- Output is formatted using Rich and displayed to console
+- State changes are immediately reflected in storage
 
-#### Keyboard Navigation
-| Key | Action |
-|-----|--------|
-| `a` | Add new task |
-| `e` | Edit selected task |
-| `d` | Delete selected task |
-| `space` | Toggle complete |
-| `p` | Cycle priority |
-| `t` | Manage tags |
-| `/` | Search/filter |
-| `?` | Help screen |
-| `q` | Quit application |
-| `j/k` or `↑/↓` | Navigate tasks |
+#### User Interaction Patterns
+| Command | Action |
+|---------|--------|
+| `add` | Add new task with title and optional description |
+| `list` | List all tasks with completion status |
+| `update` | Update task title and/or description |
+| `delete` | Delete selected task |
+| `toggle` | Mark task as complete/incomplete |
+| `menu` | Interactive menu system |
+| `--help` | Show help information |
 
 ### Performance Requirements
 
 - In-memory operations MUST be near-instantaneous (<10ms)
-- TUI startup time MUST be under 1 second
-- UI MUST remain responsive during all operations
+- CLI startup time MUST be under 1 second
+- Commands MUST execute quickly without perceptible delay
 - No blocking operations in the main thread
-- Smooth scrolling for large task lists (100+ items)
+- Console output MUST render efficiently for large task lists (100+ items)
 
 ## Agents and Skills Architecture
 
@@ -217,8 +203,8 @@ TodoApp (App)
 | Agent | Domain | Skills |
 |-------|--------|--------|
 | `python-todo-architect` | Core application (models, services, storage) | uv-package-management, task-data-modeling, basic-crud-implementation, intermediate-feature-implementation, advanced-feature-implementation, modular-code-generation, runtime-state-management |
-| `tui-designer` | TUI layer (screens, components, modals, styles) | tui-navigation-routing, tui-input-validation, tui-output-styling, tui-feedback-notifications, tui-reactive-state |
-| `testing-expert` | Testing (unit, integration, TUI tests) | basic-feature-testing, intermediate-feature-testing, advanced-feature-testing, edge-case-testing, regression-testing, in-memory-state-validation |
+| `cli-designer` | CLI layer (commands, console display, user interaction) | cli-command-structure, cli-input-validation, cli-output-formatting, cli-interactive-menu, cli-error-handling |
+| `testing-expert` | Testing (unit, integration, CLI tests) | basic-feature-testing, intermediate-feature-testing, advanced-feature-testing, edge-case-testing, regression-testing, in-memory-state-validation |
 
 ### Agent YAML Format
 
@@ -243,7 +229,7 @@ skills:
 .claude/
   agents/
     python-todo-architect.md    # Core application agent
-    tui-designer.md             # TUI layer agent
+    cli-designer.md             # CLI layer agent
     testing-expert.md           # Testing agent
   skills/
     uv-package-management/      # UV commands, dependencies
@@ -253,11 +239,11 @@ skills:
     advanced-feature-implementation/      # Recurring, due dates
     modular-code-generation/    # Code structure (core layer)
     runtime-state-management/   # State lifecycle (core layer)
-    tui-navigation-routing/     # Screens, bindings, focus
-    tui-input-validation/       # Forms, modals, validation
-    tui-output-styling/         # Widgets, TCSS
-    tui-feedback-notifications/ # Toasts, confirmations
-    tui-reactive-state/         # Reactive patterns, messages
+    cli-command-structure/      # CLI command patterns
+    cli-input-validation/       # Input validation for CLI
+    cli-output-formatting/      # Console output formatting
+    cli-interactive-menu/       # Interactive menu system
+    cli-error-handling/         # CLI-specific error handling
     basic-feature-testing/      # Basic CRUD tests
     intermediate-feature-testing/  # Filter/search tests
     advanced-feature-testing/   # Recurring/reminder tests

@@ -5,19 +5,19 @@
 ## Technical Context
 
 - **Feature**: Basic CRUD Operations (Add, Delete, Update, View, Mark Complete)
-- **Architecture**: Clean, layered architecture with models, storage, services, and TUI layers
-- **Technology Stack**: Python 3.13+, Textual TUI framework, UV package manager
+- **Architecture**: Clean, layered architecture with models, storage, services, and CLI layers
+- **Technology Stack**: Python 3.13+, Typer CLI framework, Rich formatting, UV package manager
 - **Storage**: In-memory only (dict/list based)
 - **State Management**: Module-level `TaskStore` singleton + `TaskService` wrapper
-- **Reactivity**: Textual messages + `watch` decorators
-- **UI Framework**: Textual with reactive components
+- **Output**: Rich-formatted console output
+- **UI Framework**: Typer with Rich-formatted console output
 - **Data Model**: Task entity with id, title, description, completed, created_at, updated_at
 - **Unknowns**: NEEDS CLARIFICATION
 
 ### Dependencies
 
-- **Primary**: Textual (TUI framework)
-- **Testing**: pytest, textual.testing
+- **Primary**: Typer (CLI framework), Rich (formatting)
+- **Testing**: pytest
 - **Linting**: Ruff
 - **Type Checking**: mypy
 
@@ -28,11 +28,11 @@ The application follows a clean, layered architecture with strict separation of 
 - **Models Layer** (`src/todo/models/`): Pure data structures (`Task` dataclass).
 - **Storage Layer** (`src/todo/storage/`): In-memory persistence abstraction (`TaskStore` singleton).
 - **Services Layer** (`src/todo/services/`): Business logic and validation (`TaskService`), emits reactive messages.
-- **TUI Layer** (`src/todo/tui/`): Textual-based user interface with reactive widgets, modals, and keyboard-driven navigation.
+- **CLI Layer** (`src/todo/cli/`): Typer-based command interface with Rich-formatted console output, command-driven navigation.
 
-Data flow is unidirectional: TUI → Service → Storage → Service emits `TasksChanged` → TUI reacts.
+Data flow is unidirectional: CLI Command → Service → Storage → Service returns result → CLI displays formatted output.
 
-Reactive updates are achieved exclusively through Textual's message system and `watch` decorators — no manual DOM manipulation or polling.
+Output updates are achieved through Rich formatting to console — no DOM manipulation needed.
 
 ## Constitution Check
 
@@ -42,7 +42,7 @@ Reactive updates are achieved exclusively through Textual's message system and `
 - ✅ **Architecture First**: Clean Python architecture with proper `src/` layout
 - ✅ **Clean Code Standards**: PEP 8, type hints, descriptive naming
 - ✅ **Test-First Development**: 100% test coverage for core CRUD logic
-- ✅ **Textual TUI Experience**: Full-featured TUI using Textual framework
+- ✅ **Rich CLI Experience**: Full-featured CLI using Typer framework
 - ✅ **UV Package Management**: Exclusively uses `uv` for dependency management
 
 ### Gate Evaluations
@@ -57,15 +57,15 @@ This plan is organized into four phases as required:
 
 1. **Research Phase** – Identify best practices and patterns.
 2. **Foundation Phase** – Establish core backend and project skeleton.
-3. **Analysis Phase** – Design TUI components and reactive patterns.
+3. **Analysis Phase** – Design CLI commands and Rich formatting patterns.
 4. **Synthesis Phase** – Integrate, polish, and validate.
 
 ## Research Approach
 
 Adopt a **research-concurrent** approach:
 - Research is conducted in parallel with planning and writing.
-- Key decisions are informed by real-time validation of Textual documentation, examples, and community patterns.
-- No exhaustive upfront research; instead, targeted lookups during each phase (e.g., "How to build reactive lists in Textual", "Best practices for modal forms in Textual").
+- Key decisions are informed by real-time validation of Typer and Rich documentation, examples, and community patterns.
+- No exhaustive upfront research; instead, targeted lookups during each phase (e.g., "How to build Rich tables", "Best practices for CLI command validation").
 - All external references cited in APA style where applicable.
 
 ## Quality Validation
@@ -80,10 +80,10 @@ Adopt a **research-concurrent** approach:
 | Decision | Options Considered | Chosen Approach | Tradeoffs |
 |----------|---------------------|-----------------|-----------|
 | State Management | Global module variables vs. App-level attribute vs. Dedicated reactive store | Module-level `TaskStore` singleton + `TaskService` wrapper | Simple, no boilerplate; sufficient for Phase 1 in-memory scope. Less flexible than full reactive store (e.g., textual-reactive) but avoids over-abstraction. |
-| Reactivity Mechanism | Textual messages + watch() vs. reactive variables vs. manual refresh | Messages (`TasksChanged`) + `watch` on service | Explicit, traceable events; aligns with Textual best practices. Slightly more code than reactive vars, but clearer intent and easier testing. |
-| Modal Reuse | Separate Add/Edit modals vs. Single reusable form modal | Single `TaskFormModal` used for both Add and Edit | Reduces duplication, easier maintenance. Requires careful pre-fill logic but worth the clarity. |
-| Task ID Generation | UUID vs. Auto-increment integer | Sequential integer starting at 1 | Human-readable in UI, simpler debugging. Not globally unique but sufficient for in-memory single session. |
-| Completion Styling | Checkbox character + strikethrough vs. separate completed list | Visual styling on same list (strikethrough + dim) | Keeps all tasks visible in one list; matches common todo app UX. Slightly more CSS work. |
+| Output Mechanism | Textual reactive UI vs. Rich console formatting | Rich-formatted console output via Typer commands | Direct, immediate feedback; aligns with CLI best practices. Clear separation between command input and formatted output. |
+| Command Structure | TUI modals vs. CLI commands | Separate Typer commands for add/list/update/delete/toggle | Reduces complexity, follows CLI conventions. Clear command separation makes each function focused. |
+| Task ID Generation | UUID vs. Auto-increment integer | Sequential integer starting at 1 | Human-readable in output, simpler debugging. Not globally unique but sufficient for in-memory single session. |
+| Completion Styling | Checkbox character + strikethrough vs. separate completed list | Visual styling in Rich table output (strikethrough + dim) | Keeps all tasks visible in one list; matches common todo app UX. Uses Rich formatting for visual distinction. |
 
 ## Testing Strategy
 
@@ -91,25 +91,25 @@ Validation directly mapped to acceptance criteria in `spec.md`:
 
 | User Story | Validation Checks |
 |------------|-------------------|
-| US-001: View Tasks | - App starts with empty state message<br>- Tasks appear with ID, title, status, description preview<br>- Status bar shows correct counts<br>- Reactive update after add/delete |
-| US-002: Add Task | - `a` opens modal with empty fields<br>- Title required validation<br>- Success toast on valid submit<br>- New task appears at bottom with correct ID |
-| US-003: Mark Task Complete/Incomplete | - `space` toggles instantly<br>- Visual change immediate<br>- Status bar updates |
-| US-004: Update Task | - `e` on selected task opens pre-filled modal<br>- Changes persist after save<br>- ID and created_at unchanged |
-| US-005: Delete Task | - `d` opens confirmation modal<br>- Delete only on confirm<br>- Task removed and selection adjusted |
+| US-001: View Tasks | - App starts with empty state message<br>- Tasks appear with ID, title, status, description preview in Rich table<br>- Count display shows correct totals<br>- Output updates after add/delete |
+| US-002: Add Task | - `add` command creates task<br>- Title required validation<br>- Success message on valid submit<br>- New task appears in list with correct ID |
+| US-003: Mark Task Complete/Incomplete | - `toggle` command changes status<br>- Status change visible in next list view<br>- Count display updates |
+| US-004: Update Task | - `update` command modifies task<br>- Changes persist after save<br>- ID and created_at unchanged |
+| US-005: Delete Task | - `delete` command with confirmation<br>- Delete only on confirm<br>- Task removed from subsequent list views |
 
 **Test Types**:
 - Unit tests: `TaskStore` and `TaskService` (100% coverage, red → green)
-- Integration tests: Modal submit → service → storage flow
-- TUI tests: Snapshot of main screen states (empty, few tasks, completed tasks) using `textual.testing`
+- Integration tests: Command execution → service → storage flow
+- CLI tests: Command output validation and interaction flows
 
 ## Technical Details
 
 ### Phase 1: Research
 
 Conducted concurrently:
-- Textual documentation review for reactive patterns (messages, watch, compose)
-- Best practices for modal forms and input validation
-- Examples of task list widgets and keyboard navigation
+- Typer documentation review for command patterns (arguments, options, validation)
+- Rich documentation for formatting patterns (tables, styling, output)
+- Examples of CLI command structures and input validation
 
 ### Phase 2: Foundation
 
@@ -121,17 +121,17 @@ Conducted concurrently:
 
 ### Phase 3: Analysis
 
-- Design `TaskItem`, `TaskList`, `StatusBar`
-- Design reusable `TaskFormModal` and `ConfirmDeleteModal`
-- Define keyboard bindings and action handlers
-- Plan CSS structure (`styles/main.tcss`)
+- Design Rich table formatting for task display
+- Design CLI command functions for add/list/update/delete/toggle
+- Define command arguments, options and validation
+- Plan Rich styling for console output
 
 ### Phase 4: Synthesis
 
-- Integrate TUI with backend via service
-- Implement full reactivity
+- Integrate CLI commands with backend via service
+- Implement Rich-formatted output
 - Add notifications, empty state, error handling
-- Final polish: focus management, smooth navigation
+- Final polish: command flow, user experience
 - Execute full test suite and constitution compliance audit
 
 ## Agent Assignment
@@ -139,7 +139,7 @@ Conducted concurrently:
 | Agent                  | Phase Focus                                      |
 |------------------------|--------------------------------------------------|
 | `python-todo-architect` | Foundation (models, storage, service)           |
-| `tui-designer`         | Analysis & Synthesis (TUI components, reactivity)|
+| `cli-designer`         | Analysis & Synthesis (CLI commands, Rich formatting)|
 | `testing-expert`       | All phases (test writing and validation)        |
 
 This plan ensures a robust, constitution-compliant implementation of the Basic Level while maintaining clarity, testability, and readiness for Intermediate and Advanced extensions.
@@ -148,21 +148,21 @@ This plan ensures a robust, constitution-compliant implementation of the Basic L
 
 ### Research Tasks Identified
 
-1. **Textual Reactive Patterns**: How to implement reactive updates with messages and watch decorators
-2. **Modal Form Implementation**: Best practices for creating reusable modal forms in Textual
-3. **Task List Widgets**: Examples of task list implementations in Textual
-4. **Keyboard Navigation**: Proper implementation of keyboard shortcuts in Textual applications
-5. **Toast Notifications**: How to implement toast notifications in Textual
+1. **Typer Command Patterns**: How to implement CLI commands with proper arguments and options
+2. **Rich Formatting**: Best practices for creating Rich-formatted console output
+3. **Task Table Display**: Examples of Rich table implementations for task display
+4. **CLI Input Validation**: Proper implementation of input validation in Typer commands
+5. **Console Notifications**: How to implement user feedback in console applications
 
 ### Research Findings
 
-**Decision**: Use Textual's built-in reactive patterns
-- **Rationale**: Aligns with Textual's architecture and provides clean separation of concerns
-- **Alternatives considered**: Manual DOM manipulation, polling mechanisms
+**Decision**: Use Typer's built-in command patterns
+- **Rationale**: Aligns with Typer's architecture and provides clean separation of concerns
+- **Alternatives considered**: Manual argument parsing, custom CLI frameworks
 
-**Decision**: Implement reusable modal components
-- **Rationale**: Reduces code duplication and improves maintainability
-- **Alternatives considered**: Separate add/edit modals
+**Decision**: Implement Rich-formatted console output
+- **Rationale**: Provides professional-looking output with tables and styling
+- **Alternatives considered**: Basic print statements, custom formatting
 
 **Decision**: Use integer-based sequential IDs
 - **Rationale**: Human-readable and simpler for debugging
