@@ -1,9 +1,9 @@
 """In-memory storage for Task entities using dictionary with auto-incrementing IDs."""
 
-from datetime import datetime, date
+from datetime import datetime, date, time
 from typing import Set, Optional
 
-from todo.models.task import Task, Priority
+from todo.models.task import Task, Priority, Recurrence
 
 
 class TaskNotFoundError(Exception):
@@ -12,6 +12,16 @@ class TaskNotFoundError(Exception):
     def __init__(self, task_id: int) -> None:
         super().__init__(f"Task not found: {task_id}")
         self.task_id = task_id
+
+
+def _ensure_datetime(due_date: Optional[date]) -> Optional[datetime]:
+    """Convert date to datetime if needed, preserving midnight for date-only tasks."""
+    if due_date is None:
+        return None
+    if isinstance(due_date, datetime):
+        return due_date
+    # Convert date to datetime at midnight (time = 00:00:00)
+    return datetime.combine(due_date, time(0, 0, 0))
 
 
 class TaskStore:
@@ -34,10 +44,14 @@ class TaskStore:
         priority: Priority = Priority.NONE,
         tags: Optional[Set[str]] = None,
         due_date: Optional[date] = None,
+        recurrence: Recurrence = Recurrence.NONE,
     ) -> Task:
         """Add a new task to the store."""
         task_id = self._next_id
         self._next_id += 1
+
+        # Convert date to datetime if needed
+        due_datetime = _ensure_datetime(due_date)
 
         task = Task(
             id=task_id,
@@ -46,7 +60,8 @@ class TaskStore:
             completed=False,
             priority=priority,
             tags=tags or set(),
-            due_date=due_date,
+            due_date=due_datetime,
+            recurrence=recurrence,
             created_at=datetime.now(),
         )
 
@@ -73,6 +88,7 @@ class TaskStore:
         priority: Priority | None = None,
         tags: Set[str] | None = None,
         due_date: date | None = None,
+        recurrence: Recurrence | None = None,
     ) -> Task:
         """Update an existing task."""
         task = self.get(task_id)
@@ -88,7 +104,9 @@ class TaskStore:
         if tags is not None:
             task.tags = tags
         if due_date is not None:
-            task.due_date = due_date
+            task.due_date = _ensure_datetime(due_date)
+        if recurrence is not None:
+            task.recurrence = recurrence
 
         task.mark_updated()
         return task

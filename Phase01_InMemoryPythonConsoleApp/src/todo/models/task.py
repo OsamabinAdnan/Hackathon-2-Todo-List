@@ -22,6 +22,26 @@ class Priority(IntEnum):
             return cls.NONE
 
 
+class Recurrence(IntEnum):
+    """Recurrence patterns for recurring tasks."""
+    NONE = 0
+    DAILY = 1
+    WEEKLY = 2
+    MONTHLY = 3
+
+    @classmethod
+    def from_str(cls, value: str) -> "Recurrence":
+        """Parse recurrence from string."""
+        value = value.strip().lower()
+        shortcuts = {"n": "NONE", "d": "DAILY", "w": "WEEKLY", "m": "MONTHLY"}
+        if value in shortcuts:
+            value = shortcuts[value]
+        try:
+            return cls[value.upper()]
+        except KeyError:
+            return cls.NONE
+
+
 @dataclass
 class Task:
     """Represents a todo task with organization metadata.
@@ -33,7 +53,8 @@ class Task:
         completed: Whether the task is complete (default: False).
         priority: Task priority level (default: NONE).
         tags: Set of tags for categorization.
-        due_date: Optional due date for the task.
+        due_date: Optional due datetime for the task.
+        recurrence: Recurrence pattern for the task (default: NONE).
         created_at: Timestamp when the task was created.
         updated_at: Timestamp when the task was last updated.
     """
@@ -44,7 +65,8 @@ class Task:
     completed: bool = False
     priority: Priority = Priority.NONE
     tags: Set[str] = field(default_factory=set)
-    due_date: Optional[date] = None
+    due_date: Optional[datetime] = None
+    recurrence: Recurrence = Recurrence.NONE
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: Optional[datetime] = None
 
@@ -75,6 +97,7 @@ class Task:
             "priority": self.priority.name,
             "tags": list(self.tags),
             "due_date": self.due_date.isoformat() if self.due_date else None,
+            "recurrence": self.recurrence.name,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -88,11 +111,17 @@ class Task:
             if data.get("updated_at")
             else None
         )
-        due_date = (
-            date.fromisoformat(data["due_date"])  # type: ignore[arg-type]
-            if data.get("due_date")
-            else None
-        )
+        # Handle both date-only (YYYY-MM-DD) and datetime (YYYY-MM-DDTHH:MM:SS) formats
+        due_date: Optional[datetime] = None
+        if data.get("due_date"):
+            due_date_str = data["due_date"]  # type: ignore[arg-type]
+            if "T" in due_date_str or " " in due_date_str:
+                # Datetime format
+                due_date = datetime.fromisoformat(due_date_str)
+            else:
+                # Date-only format - convert to datetime at midnight
+                due_date = datetime.fromisoformat(due_date_str + "T00:00:00")
+
         return cls(
             id=data["id"],  # type: ignore[arg-type]
             title=data["title"],  # type: ignore[arg-type]
@@ -101,6 +130,7 @@ class Task:
             priority=Priority.from_str(data.get("priority", "NONE")),  # type: ignore[arg-type]
             tags=set(data.get("tags", [])),  # type: ignore[arg-type]
             due_date=due_date,
+            recurrence=Recurrence.from_str(data.get("recurrence", "NONE")),  # type: ignore[arg-type]
             created_at=created_at,
             updated_at=updated_at,
         )

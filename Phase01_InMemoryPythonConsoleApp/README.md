@@ -14,7 +14,7 @@ A robust, type-safe Python CLI application built with Typer and Rich, implementi
 
 - ✅ **Level 1 - Basic**: Core CRUD operations (Add, View, Update, Delete, Toggle)
 - ✅ **Level 2 - Intermediate**: Priorities, Tags, Filtering, Search, Sorting
-- ⏳ **Level 3 - Advanced**: Recurring tasks, Due dates automation, Reminders (Coming Soon)
+- ✅ **Level 3 - Advanced**: Recurring tasks, DateTime precision, Smart reminders
 
 ---
 
@@ -40,6 +40,85 @@ A robust, type-safe Python CLI application built with Typer and Rich, implementi
 - **Due Date Management**: Assign future due dates with validation (YYYY-MM-DD format)
 - **Enhanced Menu**: 10 options (0-9) including dedicated Filter, Sort, Search, and Help
 - **Shorthand Inputs**: Quick commands (h/m/l/n for priority, cd/p/t/dd for sort)
+
+### Level 3 - Intelligent Task Management (✅ Completed)
+
+- **🔁 Recurring Tasks**: Tasks that automatically reschedule when completed
+  - **Patterns**: DAILY, WEEKLY, MONTHLY with shorthand input (d/w/m)
+  - **Edge Case Handling**: Monthly tasks handle Feb 29, Jan 31 → Feb 28, and year boundaries
+  - **Auto-Rescheduling**: Complete a recurring task, get a new instance for the next occurrence
+  - **Validation**: Recurring tasks must have a due date
+
+- **📅 DateTime Precision**: Specific due dates with time support
+  - **Formats**: `YYYY-MM-DD HH:MM` (e.g., "2025-01-15 14:30") or `YYYY-MM-DD` (defaults to 00:00)
+  - **Future Validation**: Rejects past datetimes with clear error messages
+  - **Time Display**: Shows time when not midnight, date-only for 00:00 (backward compatibility)
+  - **Accurate Sorting**: Sorts by complete datetime, not just date
+
+- **⏰ Smart Reminders**: Proactive console notifications
+  - **Overdue Detection**: Tasks past their due datetime (red styling with ⚠️ indicator)
+  - **Due Soon**: Tasks due within 60 minutes (yellow styling with ⏰ indicator)
+  - **Humanized Time**: "2 hours overdue", "due in 30 min", "1 day overdue"
+  - **Date-Only Exclusion**: Tasks with time=00:00 excluded from reminders (no nagging for deadlines without specific times)
+  - **Rich Panel Display**: Reminders shown at app startup and after list/search/filter commands
+
+---
+
+## Screenshots
+
+### Main Menu & Task Management
+
+**Interactive Menu**
+
+![App Screenshot](assets/App%20screenshot.png)
+
+**Adding Tasks with Priority, Tags, Due Date & Recurrence**
+
+![Add New Task](assets/Add%20New%20Task.png)
+
+**List All Tasks - Rich Table Display**
+
+![List Tasks](assets/List%20Tasks.png)
+
+### Level 2 Features
+
+**Filter Tasks by Status, Priority, or Tags**
+
+![Filter Tasks](assets/Filter%20Tasks.png)
+
+**Sort Tasks by Priority, Date, Title, or Due Date**
+
+![Sort Tasks](assets/Sort%20Tasks.png)
+
+**Search Tasks by Keywords**
+
+![Search Tasks](assets/Search%20Tasks%20by%20KWs%20in%20title%20and%20description.png)
+
+**Update Task Details**
+
+![Update Tasks](assets/Update%20Tasks.png)
+
+**Toggle Task Status**
+
+![Toggle Task](assets/Toggle%20task%20as%20completed.png)
+
+**Delete Task by ID**
+
+![Delete Task](assets/Delete%20task%20using%20ID.png)
+
+### Level 3 Features
+
+**Recurring Task Auto-Rescheduling**
+
+When you complete a recurring task, a new instance is automatically created for the next occurrence:
+
+![Recurring Task Reschedule](assets/due%20to%20toggled%20recurring%20task%2C%20it%20rescheduled.png)
+
+**Smart Reminders - Due Soon Notification**
+
+Reminders appear automatically for tasks that are overdue or due within 60 minutes:
+
+![Reminder Panel](assets/Reminder%20when%20task%20about%20to%20due.png)
 
 ---
 
@@ -122,8 +201,14 @@ For automation and scripting:
 uv run main.py add "Deploy to production" \
   --priority high \
   --tags "work,devops" \
-  --due 2026-01-20 \
+  --due "2026-01-20 15:00" \
   --description "Deploy v2.0 release"
+
+# Add a recurring weekly meeting
+uv run main.py add "Team Standup" \
+  --due "2025-01-06 09:00" \
+  --recurring weekly \
+  --priority high
 
 # List incomplete high-priority tasks sorted by due date
 uv run main.py list --status todo --priority high --sort due_date
@@ -131,10 +216,14 @@ uv run main.py list --status todo --priority high --sort due_date
 # Search for tasks containing "meeting"
 uv run main.py search "meeting" --priority high
 
-# Update task attributes
-uv run main.py update 3 --title "Updated title" --priority medium
+# Update task with new due date and recurrence
+uv run main.py update 3 \
+  --title "Updated title" \
+  --priority medium \
+  --due "2025-02-01 14:30" \
+  --recurring monthly
 
-# Toggle task completion
+# Toggle task completion (auto-reschedules recurring tasks)
 uv run main.py toggle 1
 
 # Delete a task
@@ -172,25 +261,33 @@ uv run main.py --help
 ├── history/prompts/        # Prompt History Records (PHRs)
 │   ├── basic-crud/         # Level 1 development logs
 │   ├── intermediate-features/ # Level 2 development logs
+│   ├── advanced-features/  # Level 3 development logs
 │   └── constitution/       # Project principles logs
 ├── specs/                  # Design artifacts
 │   ├── basic-crud/
 │   │   ├── spec.md         # Requirements & user stories
 │   │   ├── plan.md         # Architecture decisions
 │   │   └── tasks.md        # Implementation roadmap
-│   └── intermediate-features/
-│       ├── spec.md
-│       ├── plan.md
-│       ├── tasks.md
-│       └── checklists/     # Quality validation
+│   ├── intermediate-features/
+│   │   ├── spec.md
+│   │   ├── plan.md
+│   │   ├── tasks.md
+│   │   └── checklists/     # Quality validation
+│   └── advanced-features/
+│       ├── spec.md         # Level 3: Recurring, DateTime, Reminders
+│       ├── plan.md         # Architecture for intelligent features
+│       └── tasks.md        # 132 implementation tasks
 ├── src/todo/               # Application code
 │   ├── cli/views/          # Console UI (formatters, menu)
-│   ├── models/             # Data models (Task, Priority)
-│   ├── services/           # Business logic (TaskService)
+│   ├── models/             # Data models (Task, Priority, Recurrence)
+│   ├── services/           # Business logic (TaskService, results)
 │   └── storage/            # In-memory storage (TaskStore)
 ├── tests/
-│   ├── unit/               # Unit tests
-│   └── cli/                # CLI integration tests
+│   └── unit/               # Unit tests
+│       ├── test_datetime.py    # 21 datetime tests
+│       ├── test_recurrence.py  # 16 recurrence tests
+│       └── test_reminders.py   # 17 reminder tests
+├── assets/                 # Screenshots and media
 ├── main.py                 # Entry point
 ├── pyproject.toml          # Project config
 └── README.md               # This file
@@ -258,12 +355,59 @@ All artifacts live in `specs/{feature}/` directories.
 
 ---
 
-## What's Next?
+## Level 3 Usage Examples
 
-**Level 3 - Advanced Features** (Upcoming)
-- ⏳ Recurring tasks (daily, weekly, monthly patterns)
-- ⏳ Smart due date handling and overdue detection
-- ⏳ Reminder notifications
+### Recurring Tasks
+
+```bash
+# Add a daily gym reminder at 7 AM
+uv run main.py add "Morning Gym" --due "2025-01-02 07:00" --recurring daily
+
+# Add a weekly team meeting every Monday at 10 AM
+uv run main.py add "Weekly Standup" --due "2025-01-06 10:00" --recurring weekly
+
+# Add a monthly report due on the 15th at 2 PM
+uv run main.py add "Monthly Report" --due "2025-02-15 14:00" --recurring monthly
+
+# When you complete task 1 (daily recurring), task 6 is auto-created for next day
+uv run main.py toggle 1
+# Output: Task 1 marked complete.
+#         New recurring instance created: 6 - Morning Gym
+```
+
+### DateTime Precision
+
+```bash
+# Task with specific time (will trigger reminders)
+uv run main.py add "Doctor Appointment" --due "2025-01-15 14:30"
+
+# Date-only task (won't trigger time-based reminders)
+uv run main.py add "Project Deadline" --due "2025-01-20"
+
+# Past dates are rejected
+uv run main.py add "Old Task" --due "2024-12-01 10:00"
+# Error: Error: Due date cannot be in the past
+```
+
+### Smart Reminders
+
+Reminders appear automatically when you:
+- Launch the app (if overdue or due-soon tasks exist)
+- List, filter, or search tasks
+
+Example reminder panel:
+```
+╭─────────────────────────────────── 📋 Reminders ───────────────────────────────────╮
+│                                                                                     │
+│ ⚠️  2 Overdue Tasks                                                                 │
+│   • Task 3: Doctor Appointment (2 hours overdue)                                   │
+│   • Task 5: Submit Report (1 day overdue)                                          │
+│                                                                                     │
+│ ⏰ 1 Due Soon                                                                       │
+│   • Task 7: Team Meeting (due in 30 min)                                           │
+│                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────╯
+```
 
 ---
 

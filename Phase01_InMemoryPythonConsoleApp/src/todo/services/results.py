@@ -7,6 +7,16 @@ from typing import List, Optional, Dict, Any
 from todo.models.task import Task
 
 
+@dataclass
+class ReminderResult:
+    """Result structure for reminder detection."""
+
+    overdue_tasks: List[Task]
+    due_soon_tasks: List[Task]
+    overdue_count: int
+    due_soon_count: int
+
+
 class ResultStatus(Enum):
     """Status of a command result."""
 
