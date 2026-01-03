@@ -17,7 +17,7 @@ This is a **strict Spec-Driven Development** project for Hackathon II. All code 
 
 ### Technology Stack
 - **Frontend**: Next.js 15+ (App Router), TypeScript, Tailwind CSS, shadcn/ui, GSAP/Framer Motion
-- **Backend**: Python 3.13+, FastAPI, SQLModel, Better Auth (JWT)
+- **Backend**: UV Pacakage Manager, Python 3.13+, FastAPI, SQLModel, Better Auth (JWT)
 - **Database**: Neon Serverless PostgreSQL
 - **Deployment**: Vercel (frontend), Hugging Face Spaces (backend)
 

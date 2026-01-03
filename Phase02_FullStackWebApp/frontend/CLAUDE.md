@@ -121,33 +121,50 @@ This is the **Next.js 15+ App Router** frontend for the Hackathon II Phase 2 Tod
 ### File Structure Conventions
 ```
 frontend/
-├── app/                        # App Router pages
-│   ├── layout.tsx             # Root layout (fonts, providers)
-│   ├── page.tsx               # Home page (redirect to /login or /dashboard)
-│   ├── login/
+├── .gitignore                 # Git ignore file
+├── .next/                     # Next.js build directory
+├── app/                       # App Router pages
+│   ├── favicon.ico           # Favicon
+│   ├── globals.css           # Global styles
+│   ├── layout.tsx            # Root layout (fonts, providers)
+│   └── page.tsx              # Home page
+├── login/
 │   │   └── page.tsx           # Login page
-│   ├── signup/
+├── signup/
 │   │   └── page.tsx           # Signup page
-│   ├── dashboard/
+├── dashboard/
 │   │   ├── layout.tsx         # Dashboard layout (sidebar, header)
 │   │   └── page.tsx           # Main dashboard
 │   └── profile/
 │       └── page.tsx           # User profile page
-├── components/                 # Reusable React components
-│   ├── ui/                    # shadcn/ui components
+├── components/                # Reusable React components
+│   ├── ui/                   # shadcn/ui components
+│   │   └── button.tsx        # Button component (more components will be added as per requirements/need)
 │   ├── dashboard/             # Dashboard-specific components
 │   ├── auth/                  # Auth-related components
-│   └── tasks/                 # Task management components
-├── lib/                        # Utilities and helpers
+│   ├── tasks/                 # Task management components
+│   └── loaders/               # Loading Components
+├── components.json           # shadcn/ui configuration
+├── eslint.config.mjs         # ESLint configuration
+├── lib/                      # Utilities and helpers
+│   └── utils.ts              # Utility functions (cn, twMerge)
 │   ├── api.ts                 # API client functions
 │   ├── auth.ts                # Auth utilities (JWT handling)
-│   ├── utils.ts               # General utilities
 │   └── types.ts               # TypeScript interfaces
-├── hooks/                      # Custom React hooks
-├── public/                     # Static assets
-├── styles/                     # Global styles
-│   └── globals.css            # Tailwind imports + custom styles
-└── package.json
+├── hooks/                      # Custom React hooks (if any)
+├── next.config.ts            # Next.js configuration
+├── next-env.d.ts             # Next.js type definitions
+├── package.json              # Node.js dependencies
+├── package-lock.json         # Locked dependency versions
+├── postcss.config.mjs        # PostCSS configuration
+├── public/                   # Static assets
+│   ├── favicon.ico
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   └── vercel.svg
+├── README.md                 # Project README
+└── tsconfig.json             # TypeScript configuration
 ```
 
 ### Routing Conventions

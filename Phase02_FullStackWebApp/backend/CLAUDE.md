@@ -95,6 +95,7 @@ This is the **FastAPI** backend for the Hackathon II Phase 2 Todo application wi
 
 ### Technology Stack
 - **Language**: Python 3.13+
+- **Package Manager**: UV Package Manager
 - **Framework**: FastAPI (async web framework)
 - **ORM**: SQLModel (combines SQLAlchemy + Pydantic)
 - **Database**: Neon Serverless PostgreSQL
@@ -110,6 +111,8 @@ This is the **FastAPI** backend for the Hackathon II Phase 2 Todo application wi
 ```
 backend/
 ├── app/
+│   ├── .python-version        # Python version specification
+├   |── CLAUDE.md              # Backend development guidelines
 │   ├── main.py                # FastAPI application entry point
 │   ├── config.py              # Environment variables and settings
 │   ├── database.py            # Database connection and session management
@@ -144,8 +147,9 @@ backend/
 ├── migrations/                # Database migrations (Alembic)
 │   └── versions/
 ├── pyproject.toml             # UV/Poetry dependencies
-├── .env.example               # Environment variable template
-└── README.md
+├── .env                       # Environment variable
+├── README.md
+└── uv.lock                    # Locked dependency versions
 ```
 
 ---
