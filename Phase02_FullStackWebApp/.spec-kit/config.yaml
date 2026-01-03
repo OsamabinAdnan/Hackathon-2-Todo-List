@@ -1,0 +1,163 @@
+# Spec-Kit Plus Configuration for Hackathon II Phase 2
+# This file configures the monorepo structure for spec-driven development
+
+name: hackathon-todo-phase2
+version: "2.0.0"
+description: "Multi-user full-stack Todo web application with authentication"
+
+# Directory structure for organized specs
+structure:
+  specs_dir: specs
+  features_dir: specs/features
+  api_dir: specs/api
+  database_dir: specs/database
+  testing_dir: specs/testing
+  ui_dir: specs/ui
+
+# Development phases (progressive feature implementation)
+phases:
+  - name: phase1-console
+    status: completed
+    description: "In-memory Python console Todo app"
+    features: [task-crud-basic, task-crud-intermediate, task-crud-advanced]
+
+  - name: phase2-web
+    status: in-progress
+    description: "Full-stack web application with persistent storage"
+    features: [authentication, task-crud-basic, task-crud-intermediate, task-crud-advanced, dashboard-ui]
+
+  - name: phase3-chatbot
+    status: planned
+    description: "AI chatbot integration"
+    features: [authentication, task-crud-basic, task-crud-intermediate, task-crud-advanced, dashboard-ui, chatbot-interface]
+
+# Technology stack mapping
+tech_stack:
+  frontend:
+    framework: "Next.js 15+"
+    language: "TypeScript"
+    styling: "Tailwind CSS"
+    components: "shadcn/ui"
+    animations: ["GSAP", "Framer Motion"]
+    fonts: ["JetBrains Mono", "Inter"]
+  backend:
+    language: "Python 3.13+"
+    framework: "FastAPI"
+    orm: "SQLModel"
+    package_manager: "UV"
+  database:
+    provider: "Neon PostgreSQL"
+    type: "serverless"
+  authentication:
+    library: "Better Auth"
+    method: "JWT tokens"
+  deployment:
+    frontend: "Vercel"
+    backend: "Hugging Face Spaces"
+
+# UI/UX Design System Specifications
+ui_design:
+  design_system:
+    spec: "specs/ui/design-system.md"
+    tokens:
+      colors: ["primary", "neutral", "semantic"]
+      typography: ["JetBrains Mono", "Inter"]
+      spacing: "8px base unit"
+      border_radius: ["sm", "base", "md", "lg", "xl", "2xl", "full"]
+      shadows: ["sm", "base", "md", "lg", "xl", "2xl"]
+      glassmorphism: "backdrop-blur with opacity layers"
+
+  layout:
+    spec: "specs/ui/dashboard-layout.md"
+    patterns:
+      - desktop: "240px sidebar + header + main content"
+      - tablet: "64px icon sidebar + header + content"
+      - mobile: "off-canvas drawer + bottom nav"
+
+  glassmorphism:
+    spec: "specs/ui/glassmorphism.md"
+    variants:
+      - subtle: "5% opacity, 8px blur"
+      - standard: "10% opacity, 12px blur"
+      - strong: "70% opacity, 20px blur"
+
+  animations:
+    spec: "specs/ui/animations.md"
+    library: ["GSAP", "Framer Motion"]
+    performance_target: "60fps"
+    durations:
+      instant: "100ms"
+      fast: "200ms"
+      base: "300ms"
+      slow: "500ms"
+
+  responsive:
+    spec: "specs/ui/responsive-design.md"
+    approach: "mobile-first"
+    breakpoints:
+      sm: "640px"
+      md: "768px"
+      lg: "1024px"
+      xl: "1280px"
+      "2xl": "1536px"
+    touch_targets: "44x44px minimum"
+
+  dark_mode:
+    spec: "specs/ui/dark-mode.md"
+    implementation: "next-themes with class strategy"
+    themes: ["light", "dark", "system"]
+    persistence: "localStorage"
+
+  accessibility:
+    spec: "specs/ui/accessibility.md"
+    standard: "WCAG 2.1 Level AA"
+    requirements:
+      - keyboard_navigation: "all features operable with keyboard"
+      - screen_reader: "semantic HTML + ARIA"
+      - color_contrast: "4.5:1 normal text, 3:1 large text"
+      - focus_indicators: "2px ring with 2px offset"
+
+# Testing Strategy
+testing:
+  backend:
+    spec: "specs/testing/backend-testing.md"
+    framework: "pytest"
+    coverage_target: "80%+"
+    critical_coverage: "100% (auth/security)"
+
+  frontend:
+    spec: "specs/testing/frontend-testing.md"
+    framework: "Vitest + React Testing Library"
+    coverage_target: "70%+"
+    critical_coverage: "90%+ (auth/task components)"
+
+  e2e:
+    spec: "specs/testing/e2e-testing.md"
+    framework: "Playwright"
+    browsers: ["Chrome", "Firefox", "Safari"]
+    coverage_target: "100% critical flows"
+
+  philosophy:
+    spec: "specs/testing/overview.md"
+    approach: "Test-Driven Development (TDD)"
+    pyramid: "60-70% unit, 20-30% integration, 5-10% E2E"
+
+# Monorepo workspaces
+workspaces:
+  - name: frontend
+    path: ./frontend
+    type: nextjs
+  - name: backend
+    path: ./backend
+    type: fastapi
+
+# Spec-driven workflow stages
+workflow:
+  stages: [specify, clarify, plan, tasks, analyze, implement]
+
+# Metadata
+metadata:
+  hackathon: "Hackathon II - Spec-Driven Development"
+  organization: "Panaversity"
+  phase: 2
+  created: "2026-01-02"
