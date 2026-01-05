@@ -92,6 +92,7 @@ User: @specs/features/authentication.md implement Better Auth JWT login flow
 - `@specs/ui/responsive-design.md` - Mobile-first responsive patterns
 - `@specs/ui/dark-mode.md` - Theme toggle implementation (next-themes)
 - `@specs/ui/accessibility.md` - WCAG 2.1 AA compliance requirements
+- `@specs/ui/color-palette-spec-v4.md` - Comprehensive color palette for dark and light themes with modern Tailwind CSS v4 approach
 
 **Best Practice:**
 Always read the spec file BEFORE writing any code. The specs contain:

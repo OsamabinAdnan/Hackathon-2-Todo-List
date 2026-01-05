@@ -46,6 +46,7 @@ User: @specs/features/task-crud.md implement the task list dashboard with filter
 - `@specs/ui/responsive-design.md` - Mobile-first breakpoints, touch targets, adaptive layouts
 - `@specs/ui/dark-mode.md` - next-themes implementation, color variables, smooth transitions
 - `@specs/ui/accessibility.md` - WCAG 2.1 AA keyboard nav, ARIA, color contrast
+- `@specs/ui/color-palette-spec-v4.md` - Complete dark/light theme color specifications with hex values and modern Tailwind CSS v4 usage guidelines
 
 **Testing:**
 - `@specs/testing/frontend-testing.md` - Vitest component tests, accessibility tests
