@@ -97,7 +97,7 @@ export function AppFooter() {
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-600 dark:text-gray-500">
-            © 2024 Taskify. All rights reserved.
+            © 2026 Taskify. All rights reserved.
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-500">
             Built by <span className="font-semibold text-primary">Osama Bin Adnan</span>

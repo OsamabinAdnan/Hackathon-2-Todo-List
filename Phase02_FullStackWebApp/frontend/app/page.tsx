@@ -131,15 +131,15 @@ export default function HomePage() {
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-indigo-950 dark:to-purple-950 overflow-hidden">
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
         {/* Animated Background Blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
+            className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] bg-primary/20 rounded-full blur-3xl"
             animate={{
               scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, 30, 0],
+              x: [0, 30, 0],
+              y: [0, 20, 0],
             }}
             transition={{
               duration: 8,
@@ -148,11 +148,11 @@ export default function HomePage() {
             }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+            className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] bg-purple-500/20 rounded-full blur-3xl"
             animate={{
               scale: [1, 1.3, 1],
-              x: [0, -50, 0],
-              y: [0, -30, 0],
+              x: [0, -30, 0],
+              y: [0, -20, 0],
             }}
             transition={{
               duration: 10,
@@ -162,38 +162,38 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <div className="relative z-10 max-w-5xl mx-auto text-center px-4">
           {/* Title */}
-          <h1 className="hero-title text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-black text-foreground mb-6 leading-tight pt-8">
+          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-foreground mb-4 sm:mb-6 leading-tight pt-8">
             <span className="hero-title bg-clip-text text-transparent bg-linear-to-r from-primary via-purple-600 to-pink-600">
               Taskify
             </span>
           </h1>
 
-          <p className="hero-subtitle text-xl xs:text-2xl sm:text-3xl text-muted-foreground mb-4 font-medium">
+          <p className="hero-subtitle text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-3 sm:mb-4 font-medium">
             Your Smart Task Management Solution
           </p>
 
-          <p className="hero-subtitle text-base xs:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+          <p className="hero-subtitle text-sm sm:text-base md:text-lg text-muted-foreground mb-8 sm:mb-12 max-w-2xl mx-auto px-2">
             Organize your life with powerful features like recurring tasks, priority tags, and beautiful dark mode
           </p>
 
           {/* CTA Buttons */}
-          <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <div className="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full sm:w-auto px-4">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
               <Link
                 href="/signup"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3.5 md:py-4 bg-primary text-primary-foreground rounded-xl font-bold text-sm sm:text-base md:text-lg shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto"
               >
                 Get Started Free
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
               </Link>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 px-8 py-4 glass-card rounded-xl font-bold text-lg hover:bg-card/60 transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 glass-card rounded-xl font-bold text-base sm:text-lg hover:bg-card/60 transition-all duration-300 w-full sm:w-auto"
               >
                 Sign In
               </Link>
@@ -203,9 +203,9 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section ref={statsRef} className="py-20 px-4 sm:px-6 lg:px-8">
+      <section ref={statsRef} className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
             {[
               { value: 10000, label: 'Active Users', suffix: '+' },
               { value: 50000, label: 'Tasks Completed', suffix: '+' },
@@ -213,15 +213,15 @@ export default function HomePage() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="glass-card p-8 rounded-2xl text-center shadow-lg shadow-primary/10"
+                className="glass-card p-6 sm:p-8 rounded-2xl text-center shadow-lg shadow-primary/10"
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 60px rgba(74, 90, 184, 0.2)' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
-                <div className="text-5xl font-black text-primary mb-2">
+                <div className="text-4xl sm:text-5xl font-black text-primary mb-2">
                   <span className="stat-number">{stat.value}</span>
                   {stat.suffix}
                 </div>
-                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -229,11 +229,11 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="py-20 px-4 sm:px-6 lg:px-8">
+      <section ref={featuresRef} className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <motion.h2
-              className="text-4xl sm:text-5xl font-black text-foreground mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-3 sm:mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -242,7 +242,7 @@ export default function HomePage() {
               Powerful Features
             </motion.h2>
             <motion.p
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+              className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -252,21 +252,21 @@ export default function HomePage() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <motion.div
                   key={index}
-                  className="feature-card glass-card p-8 rounded-2xl shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300"
+                  className="feature-card glass-card p-6 sm:p-8 rounded-2xl shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300"
                   whileHover={{ y: -8 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
-                  <div className={`inline-flex p-4 rounded-xl bg-linear-to-br ${feature.color} mb-6`}>
-                    <Icon className="h-8 w-8 text-white" />
+                  <div className={`inline-flex p-3 sm:p-4 rounded-xl bg-linear-to-br ${feature.color} mb-4 sm:mb-6`}>
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 sm:mb-3">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">{feature.description}</p>
                 </motion.div>
               );
             })}
@@ -275,27 +275,27 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="max-w-4xl mx-auto glass-card p-12 rounded-3xl text-center shadow-2xl shadow-primary/20"
+          className="max-w-4xl mx-auto glass-card p-8 sm:p-12 rounded-3xl text-center shadow-2xl shadow-primary/20"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4 sm:mb-6">
             Ready to Get Started?
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             Join thousands of users who are already managing their tasks more efficiently with Taskify
           </p>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-2">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 px-10 py-5 bg-primary text-primary-foreground rounded-xl font-bold text-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 md:px-10 py-2.5 sm:py-3.5 md:py-5 bg-primary text-primary-foreground rounded-xl font-bold text-base sm:text-lg md:text-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto"
             >
               Create Free Account
-              <ArrowRight className="h-6 w-6" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-6 md:w-6" />
             </Link>
           </motion.div>
         </motion.div>

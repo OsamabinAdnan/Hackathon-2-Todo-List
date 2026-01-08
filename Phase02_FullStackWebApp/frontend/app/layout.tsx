@@ -24,8 +24,53 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Taskify - Smart Task Management",
+  title: {
+    default: "Taskify - Smart Task Management",
+    template: "%s | Taskify"
+  },
   description: "Powerful multi-user task management application with advanced features, recurring tasks, and beautiful UI",
+  keywords: ["task management", "productivity", "todo app", "recurring tasks", "priority management", "task tracker"],
+  authors: [{ name: "Osama bin Adnan", url: "https://github.com/OsamabinAdnan" }],
+  creator: "Osama bin Adnan",
+  publisher: "Osama bin Adnan",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://taskify-osamabinadnan.vercel.app/'),
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://taskify-osamabinadnan.vercel.app/',
+    title: 'Taskify - Smart Task Management',
+    description: 'Powerful multi-user task management application with advanced features, recurring tasks, and beautiful UI',
+    siteName: 'Taskify',
+    images: [],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Taskify - Smart Task Management',
+    description: 'Powerful multi-user task management application with advanced features, recurring tasks, and beautiful UI',
+  },
+  icons: {
+    icon: '/todo_icon.png',
+  },
+  manifest: '/site.webmanifest',
 };
 
 export const viewport: Viewport = {
@@ -34,6 +79,11 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#0B0A14' },
   ],
   colorScheme: 'dark light',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
