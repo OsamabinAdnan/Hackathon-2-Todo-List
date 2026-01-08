@@ -67,9 +67,7 @@ export const metadata: Metadata = {
     title: 'Taskify - Smart Task Management',
     description: 'Powerful multi-user task management application with advanced features, recurring tasks, and beautiful UI',
   },
-  icons: {
-    icon: '/todo_icon.png',
-  },
+  icons: '/todo_icon.png',
   manifest: '/site.webmanifest',
 };
 
