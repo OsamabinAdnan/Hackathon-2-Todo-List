@@ -181,7 +181,7 @@ Create a **professional, intuitive dashboard experience** with:
 
 **Structure:**
 ```tsx
-<main className="ml-60 mt-16 min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 p-8">
+<main className="ml-60 mt-16 min-h-screen bg-linear-to-br from-neutral-50 to-neutral-100 p-8">
   {/* Page Header */}
   <div className="mb-8">
     <div className="flex items-center justify-between">

@@ -393,7 +393,7 @@ export interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-zinc-900 dark:to-zinc-950">
+    <div className="min-h-screen bg-linear-to-br from-neutral-50 to-neutral-100 dark:from-zinc-900 dark:to-zinc-950">
       {/* Sidebar */}
       <Sidebar />
 

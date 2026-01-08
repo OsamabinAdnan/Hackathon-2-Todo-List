@@ -208,7 +208,7 @@ export function ThemeToggle() {
 
 **Gradient Backgrounds for Glass Effects:**
 ```tsx
-<div className="min-h-screen bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-zinc-900 dark:via-zinc-950 dark:to-black">
+<div className="min-h-screen bg-linear-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-zinc-900 dark:via-zinc-950 dark:to-black">
   {/* Glass components look best on gradient backgrounds */}
 </div>
 ```
@@ -252,7 +252,7 @@ export function ThemeToggle() {
 ```tsx
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-neutral-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-black flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-primary-50 via-white to-neutral-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-black flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-2xl p-8 shadow-2xl">
         <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-50 mb-2">
           Welcome Back
@@ -269,7 +269,7 @@ export default function LoginPage() {
 
 **Dashboard:**
 ```tsx
-<div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-zinc-900 dark:to-zinc-950">
+<div className="min-h-screen bg-linear-to-br from-neutral-50 to-neutral-100 dark:from-zinc-900 dark:to-zinc-950">
   <Sidebar className="bg-white/80 dark:bg-zinc-900/90 backdrop-blur-md border-r border-neutral-200 dark:border-zinc-700" />
   <Header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-zinc-700" />
   <main>{/* Content */}</main>

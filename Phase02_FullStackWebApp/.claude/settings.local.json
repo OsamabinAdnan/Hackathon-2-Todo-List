@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(findstr /n \"map\\(\\(task, index\\)\" \"G:\\\\osamabinadnan_files\\\\giaic\\\\quarter_04_plus\\\\Hackathon-2-Todo-List\\\\Phase02_FullStackWebApp\\\\frontend\\\\app\\\\dashboard\\\\page.tsx\")"
+    ]
+  }
+}
