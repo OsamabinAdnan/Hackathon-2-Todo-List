@@ -35,13 +35,13 @@ export function DeleteAccountConfirmationModal({
         </div>
 
         {/* Title */}
-        <h2 className="text-xl xs:text-2xl font-extrabold text-foreground text-center mb-2 tracking-tight">
+        <h2 className="text-xl xs:text-2xl font-extrabold text-foreground text-center mb-2 tracking-tight font-mono">
           Delete Account?
         </h2>
 
         {/* Disclaimer */}
         <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-3 xs:p-4 mb-4 xs:mb-6">
-          <p className="text-sm text-destructive font-medium text-center">
+          <p className="text-sm text-destructive font-medium text-center font-mono">
             This action cannot be undone. This will permanently delete your account and remove all your data.
           </p>
         </div>
@@ -51,14 +51,14 @@ export function DeleteAccountConfirmationModal({
           <Button
             onClick={onCancel}
             variant="outline"
-            className="flex-1 py-2.5 xs:py-3 rounded-xl border-border/50 hover:bg-accent transition-all font-bold text-sm"
+            className="flex-1 py-2.5 xs:py-3 rounded-xl border-border/50 hover:bg-accent transition-all font-bold text-sm font-mono"
           >
             <XIcon className="h-4 w-4 mr-2" />
             No, Keep It
           </Button>
           <Button
             onClick={onConfirm}
-            className="flex-1 py-2.5 xs:py-3 rounded-xl bg-danger text-danger-foreground hover:bg-danger/90 transition-all font-bold text-sm shadow-lg shadow-danger/20"
+            className="flex-1 py-2.5 xs:py-3 rounded-xl bg-danger text-danger-foreground hover:bg-danger/90 transition-all font-bold text-sm shadow-lg shadow-danger/20 font-mono"
           >
             <CheckIcon className="h-4 w-4 mr-2" />
             Yes, Delete

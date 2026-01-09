@@ -70,7 +70,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
     <AnimatedTaskItem
       index={index}
       className={cn(
-        "group relative p-5 glass-card rounded-xl border border-border/40 hover:border-primary/30 transition-all duration-300 flex shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20",
+        "group relative p-5 glass-card rounded-xl border border-border/40 hover:border-primary/30 transition-all duration-300 flex shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 font-mono",
         viewMode === 'grid' ? "flex-col h-full min-h-[220px]" : "flex-row items-start gap-4"
       )}
     >
@@ -84,7 +84,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
         <div className="flex-1 flex flex-col h-full min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
             <h3 className={cn(
-              "text-sm xs:text-base sm:text-lg font-bold leading-tight transition-all duration-300 truncate",
+              "text-sm xs:text-base sm:text-lg font-bold leading-tight transition-all duration-300 truncate font-mono",
               isCompleted ? "text-muted-foreground line-through opacity-70" : "text-foreground"
             )}>
               {task.title}
@@ -94,7 +94,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
               <button
                 type="button"
                 onClick={() => onEdit(task)}
-                className="p-1.5 rounded-lg text-primary hover:text-primary hover:bg-primary/20 bg-primary/10 border border-primary/20 hover:border-primary/40 transition-all"
+                className="p-1.5 rounded-lg text-primary hover:text-primary hover:bg-primary/20 bg-primary/10 border border-primary/20 hover:border-primary/40 transition-all font-mono"
                 title="Edit Task"
                 aria-label="Edit Task"
               >
@@ -103,7 +103,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
               <button
                 type="button"
                 onClick={() => onDelete(task.id)}
-                className="p-1.5 rounded-lg text-danger hover:text-danger hover:bg-danger/20 bg-danger/10 border border-danger/20 hover:border-danger/40 transition-all"
+                className="p-1.5 rounded-lg text-danger hover:text-danger hover:bg-danger/20 bg-danger/10 border border-danger/20 hover:border-danger/40 transition-all font-mono"
                 title="Delete Task"
                 aria-label="Delete Task"
               >
@@ -114,7 +114,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
 
           {task.description && (
             <p className={cn(
-              "text-sm text-muted-foreground mb-4 line-clamp-2",
+              "text-sm text-muted-foreground mb-4 line-clamp-2 font-mono",
               isCompleted && "opacity-60"
             )}>
               {task.description}
@@ -124,7 +124,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
           <div className="mt-auto space-y-3">
             <div className="flex flex-wrap gap-2 items-center">
               <span className={cn(
-                "px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-wider rounded-full border backdrop-blur-md shadow-sm",
+                "px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-wider rounded-full border backdrop-blur-md shadow-sm font-mono",
                 priorityColors[task.priority] || priorityColors.none
               )}>
                 {task.priority}
@@ -133,15 +133,16 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
               {task.due_date && (() => {
                 const date = parseLocalDate(task.due_date);
                 return date ? (
-                  <span className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-full bg-primary/10 text-primary border border-primary/20 backdrop-blur-md">
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-full bg-primary/10 text-primary border border-primary/20 backdrop-blur-md font-mono">
                     <CalendarIcon className="h-3 w-3 md:h-4 md:w-4" />
-                    {date.toLocaleDateString()}
+                    {date.toLocaleDateString()} {' '}
+                    {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 ) : null;
               })()}
 
               {task.recurrence_pattern && task.recurrence_pattern !== 'none' && (
-                <span className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30 backdrop-blur-md">
+                <span className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30 backdrop-blur-md font-mono">
                   <RepeatIcon className="h-3 w-3 md:h-4 md:w-4" />
                   {task.recurrence_pattern}
                 </span>
@@ -154,7 +155,7 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
                   <span
                     key={idx}
                     className={cn(
-                      "flex items-center gap-1 px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-md border backdrop-blur-sm",
+                      "flex items-center gap-1 px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs lg:text-sm font-bold rounded-md border backdrop-blur-sm font-mono",
                       getTagColor(tag, idx)
                     )}
                   >
@@ -165,9 +166,10 @@ export function TaskCard({ task, index, viewMode, onToggle, onEdit, onDelete }: 
               </div>
             )}
 
-            <div className="flex items-center gap-2 text-[10px] text-muted-foreground pt-1 border-t border-border/20">
+            <div className="flex items-center gap-2 text-[10px] text-muted-foreground pt-1 border-t border-border/20 font-mono">
               <span className="flex-1">
-                Created: {parseLocalDate(task.created_at)?.toLocaleDateString() || 'Unknown'}
+                Created: {parseLocalDate(task.created_at)?.toLocaleDateString()} {' '}
+                {parseLocalDate(task.created_at)?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || 'Unknown'}
               </span>
             </div>
           </div>

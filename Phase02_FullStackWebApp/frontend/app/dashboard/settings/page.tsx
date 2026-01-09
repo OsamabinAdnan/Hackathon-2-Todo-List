@@ -11,15 +11,15 @@ import { userApi } from '@/lib/api';
 import { DeleteAccountConfirmationModal } from '@/components/settings/DeleteAccountConfirmationModal';
 
 const toastSuccessClassNames = {
-  toast: 'glass-toast-success',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-success font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const toastErrorClassNames = {
-  toast: 'glass-toast-error',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-error font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const getErrorMessage = (error: unknown) => {
@@ -211,7 +211,7 @@ export default function SettingsPage() {
       <AnimatedPage className="flex-1">
         <div className="space-y-6 max-w-7xl mx-auto px-2 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8">
           <AnimatedCard delay={0.1}>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+            <h1 className="text-2xl font-bold font-mono text-gray-900 dark:text-white">Settings</h1>
           </AnimatedCard>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -219,12 +219,12 @@ export default function SettingsPage() {
             <AnimatedCard delay={0.2}>
               <Card className="glass-card">
                 <CardHeader>
-                  <CardTitle className="text-gray-900 dark:text-white">Profile Settings</CardTitle>
+                  <CardTitle className="font-mono text-gray-900 dark:text-white">Profile Settings</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleProfileUpdate} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-sm font-medium font-mono text-gray-700 dark:text-gray-300 mb-1">
                         Full Name
                       </label>
                       <Input
@@ -232,12 +232,12 @@ export default function SettingsPage() {
                         value={profileName}
                         onChange={(e) => setProfileName(e.target.value)}
                         placeholder="John Doe"
-                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white rounded-lg py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white font-mono rounded-lg py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder:font-mono"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-sm font-medium font-mono text-gray-700 dark:text-gray-300 mb-1">
                         Email Address
                       </label>
                       <Input
@@ -245,14 +245,14 @@ export default function SettingsPage() {
                         value={profileEmail}
                         onChange={(e) => setProfileEmail(e.target.value)}
                         placeholder="john@example.com"
-                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white rounded-lg py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white font-mono rounded-lg py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder:font-mono"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={isLoadingProfile}
-                      className="w-full bg-indigo-600/80 backdrop-blur-sm hover:bg-indigo-700/80 text-white py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
+                      className="w-full bg-indigo-600/80 backdrop-blur-sm hover:bg-indigo-700/80 text-white py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 font-mono"
                     >
                       {isLoadingProfile ? 'Updating...' : 'Update Profile'}
                     </Button>
@@ -265,12 +265,12 @@ export default function SettingsPage() {
           <AnimatedCard delay={0.3}>
             <Card className="glass-card">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Change Password</CardTitle>
+                <CardTitle className="font-mono text-gray-900 dark:text-white">Change Password</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handlePasswordChange} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium font-mono text-gray-700 dark:text-gray-300 mb-1">
                       Current Password
                     </label>
                     <div className="relative">
@@ -280,7 +280,7 @@ export default function SettingsPage() {
                         onChange={(e) => setCurrentPassword(e.target.value)}
                         placeholder="Enter current password"
                         required
-                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white font-mono rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder:font-mono"
                       />
                       <button
                         type="button"
@@ -298,7 +298,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium font-mono text-gray-700 dark:text-gray-300 mb-1">
                       New Password
                     </label>
                     <div className="relative">
@@ -308,7 +308,7 @@ export default function SettingsPage() {
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Enter new password"
                         required
-                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white font-mono rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder:font-mono"
                       />
                       <button
                         type="button"
@@ -326,7 +326,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium font-mono text-gray-700 dark:text-gray-300 mb-1">
                       Confirm New Password
                     </label>
                     <div className="relative">
@@ -336,7 +336,7 @@ export default function SettingsPage() {
                         onChange={(e) => setConfirmNewPassword(e.target.value)}
                         placeholder="Confirm new password"
                         required
-                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        className="bg-white/30 backdrop-blur-sm border border-white/30 dark:border-gray-600/50 text-gray-900 dark:text-white font-mono rounded-lg py-2 px-3 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder:font-mono"
                       />
                       <button
                         type="button"
@@ -356,7 +356,7 @@ export default function SettingsPage() {
                   <Button
                     type="submit"
                     disabled={isLoadingPassword}
-                    className="w-full bg-indigo-600/80 backdrop-blur-sm hover:bg-indigo-700/80 text-white py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
+                    className="w-full bg-indigo-600/80 backdrop-blur-sm hover:bg-indigo-700/80 text-white py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 font-mono"
                   >
                     {isLoadingPassword ? 'Changing...' : 'Change Password'}
                   </Button>
@@ -370,19 +370,19 @@ export default function SettingsPage() {
         <AnimatedCard delay={0.4}>
           <Card className="glass-card">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Account Management</CardTitle>
+              <CardTitle className="font-mono text-gray-900 dark:text-white">Account Management</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-4 bg-red-500/10 dark:bg-red-900/20 rounded-lg">
                   <div>
-                    <h3 className="font-medium text-red-700 dark:text-red-300">Delete Account</h3>
-                    <p className="text-sm text-red-600 dark:text-red-400">Permanently remove your account and all data</p>
+                    <h3 className="font-medium font-mono text-red-700 dark:text-red-300">Delete Account</h3>
+                    <p className="text-sm font-mono text-red-600 dark:text-red-400">Permanently remove your account and all data</p>
                   </div>
                   <Button
                     variant="destructive"
                     onClick={() => setIsDeleteModalOpen(true)}
-                    className="bg-red-500/80 backdrop-blur-sm hover:bg-red-600/80 text-white"
+                    className="bg-red-500/80 backdrop-blur-sm hover:bg-red-600/80 text-white font-mono"
                   >
                     Delete Account
                   </Button>
@@ -390,13 +390,13 @@ export default function SettingsPage() {
 
                 <div className="flex justify-between items-center p-4 bg-yellow-500/10 dark:bg-yellow-900/20 rounded-lg">
                   <div>
-                    <h3 className="font-medium text-yellow-700 dark:text-yellow-300">Log Out</h3>
-                    <p className="text-sm text-yellow-600 dark:text-yellow-400">End your current session</p>
+                    <h3 className="font-medium font-mono text-yellow-700 dark:text-yellow-300">Log Out</h3>
+                    <p className="text-sm font-mono text-yellow-600 dark:text-yellow-400">End your current session</p>
                   </div>
                   <Button
                     variant="outline"
                     onClick={handleLogout}
-                    className="border-yellow-500/50 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-500/20 dark:hover:bg-yellow-900/30"
+                    className="border-yellow-500/50 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-500/20 dark:hover:bg-yellow-900/30 font-mono"
                   >
                     Log Out
                   </Button>

@@ -4,27 +4,27 @@ import { TaskCreate, TaskUpdate } from '@/lib/types';
 import { toast } from 'sonner';
 
 const toastClassNames = {
-  toast: 'glass-toast',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const toastSuccessClassNames = {
-  toast: 'glass-toast-success',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-success font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const toastErrorClassNames = {
-  toast: 'glass-toast-error',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-error font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const toastInfoClassNames = {
-  toast: 'glass-toast-info',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-info font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 export function useTasks() {

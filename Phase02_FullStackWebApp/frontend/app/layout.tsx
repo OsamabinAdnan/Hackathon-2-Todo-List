@@ -129,10 +129,10 @@ export default function RootLayout({
             toastOptions={{
               unstyled: true,
               classNames: {
-                toast: 'glass-toast',
-                title: 'glass-toast-title',
-                description: 'glass-toast-description',
-                closeButton: 'glass-toast-close',
+                toast: 'glass-toast font-mono',
+                title: 'glass-toast-title font-mono',
+                description: 'glass-toast-description font-mono',
+                closeButton: 'glass-toast-close font-mono',
               },
             }}
           />

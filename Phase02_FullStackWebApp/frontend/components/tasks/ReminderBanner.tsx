@@ -95,14 +95,14 @@ export function ReminderBanner({ tasks, className }: ReminderBannerProps) {
 
       {/* Message */}
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] xs:text-xs sm:text-sm font-medium text-foreground leading-tight">
+        <p className="text-[11px] xs:text-xs sm:text-sm font-medium text-foreground leading-tight font-mono">
           Your next task <span className="font-semibold">"{firstTask.task.title}"</span> is due in{' '}
           <span className="font-semibold text-red-600 dark:text-red-400">
             {formatTimeRemaining(firstTask.timeRemaining)}
           </span>
         </p>
         {upcomingTasks.length > 1 && (
-          <p className="text-[10px] xs:text-xs text-muted-foreground mt-0.5">
+          <p className="text-[10px] xs:text-xs text-muted-foreground mt-0.5 font-mono">
             +{upcomingTasks.length - 1} more upcoming task{upcomingTasks.length - 1 > 1 ? 's' : ''}
           </p>
         )}

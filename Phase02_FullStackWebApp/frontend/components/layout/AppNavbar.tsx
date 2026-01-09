@@ -109,7 +109,7 @@ export function AppNavbar() {
           <div className="flex flex-col grow pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center justify-between px-4">
               <motion.h1
-                className="text-2xl font-bold text-primary"
+                className="text-2xl font-bold font-mono text-primary"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
@@ -137,8 +137,8 @@ export function AppNavbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
             >
-              <p className="text-sm font-semibold text-primary">Hello!</p>
-              <p className="text-base font-bold text-foreground truncate">{userName}</p>
+              <p className="text-sm font-semibold font-mono text-primary">Hello!</p>
+              <p className="text-base font-bold font-mono text-foreground truncate">{userName}</p>
             </motion.div>
 
             <div className="mt-5 flex-1 flex flex-col overflow-y-auto">
@@ -154,7 +154,7 @@ export function AppNavbar() {
                       pathname === '/dashboard'
                         ? 'bg-primary text-primary-foreground shadow-lg'
                         : 'text-foreground hover:bg-primary/10 hover:text-primary'
-                    } group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200`}
+                    } group flex items-center px-3 py-2 text-sm font-medium font-mono rounded-lg transition-all duration-200`}
                     onClick={() => setSidebarOpen(false)}
                   >
                     Dashboard
@@ -172,7 +172,7 @@ export function AppNavbar() {
                       pathname === '/dashboard/settings'
                         ? 'bg-primary text-primary-foreground shadow-lg'
                         : 'text-foreground hover:bg-primary/10 hover:text-primary'
-                    } group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200`}
+                    } group flex items-center px-3 py-2 text-sm font-medium font-mono rounded-lg transition-all duration-200`}
                     onClick={() => setSidebarOpen(false)}
                   >
                     Settings
@@ -184,7 +184,7 @@ export function AppNavbar() {
                     handleLogout();
                     setSidebarOpen(false);
                   }}
-                  className="w-full text-left text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 group flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+                  className="w-full text-left text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 group flex items-center gap-2 px-3 py-2 text-sm font-medium font-mono rounded-lg transition-all duration-200"
                   title="Logout"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -235,10 +235,10 @@ export function AppNavbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
-                <h1 className="text-base xs:text-lg sm:text-xl font-bold text-primary truncate max-w-full">
+                <h1 className="text-base xs:text-lg sm:text-xl font-bold font-mono text-primary truncate max-w-full">
                   <Link href="/dashboard">Taskify</Link>
                 </h1>
-                <p className="text-[10px] xs:text-xs text-muted-foreground truncate max-w-full">Hello, {userName}!</p>
+                <p className="text-[10px] xs:text-xs text-muted-foreground truncate max-w-full font-mono">Hello, {userName}!</p>
               </motion.div>
             </>
           ) : (
@@ -276,7 +276,7 @@ export function AppNavbar() {
           <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-6">
               <motion.h1
-                className="text-2xl font-bold text-primary"
+                className="text-2xl font-bold font-mono text-primary"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
@@ -291,8 +291,8 @@ export function AppNavbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.15 }}
                 >
-                  <p className="text-base font-bold text-primary">Hello!</p>
-                  <p className="text-base font-bold text-foreground">{userName}</p>
+                  <p className="text-base font-bold font-mono text-primary">Hello!</p>
+                  <p className="text-base font-bold font-mono text-foreground">{userName}</p>
                 </motion.div>
               )}
             </div>
@@ -307,7 +307,7 @@ export function AppNavbar() {
                   >
                     <Link
                       href="/dashboard"
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      className={`px-4 py-2 text-sm font-medium font-mono rounded-lg transition-all duration-200 ${
                         pathname === '/dashboard'
                           ? 'bg-primary text-primary-foreground shadow-lg'
                           : 'text-foreground hover:bg-primary/10 hover:text-primary'
@@ -324,7 +324,7 @@ export function AppNavbar() {
                   >
                     <Link
                       href="/dashboard/settings"
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      className={`px-4 py-2 text-sm font-medium font-mono rounded-lg transition-all duration-200 ${
                         pathname === '/dashboard/settings'
                           ? 'bg-primary text-primary-foreground shadow-lg'
                           : 'text-foreground hover:bg-primary/10 hover:text-primary'
@@ -366,7 +366,7 @@ export function AppNavbar() {
                   >
                     <Link
                       href="/login"
-                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
+                      className="px-4 py-2 text-sm font-medium font-mono text-foreground hover:text-primary transition-colors duration-200"
                     >
                       Sign In
                     </Link>
@@ -379,7 +379,7 @@ export function AppNavbar() {
                   >
                     <Link
                       href="/signup"
-                      className="px-6 py-2 text-sm font-bold text-primary-foreground bg-primary rounded-lg shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-200"
+                      className="px-6 py-2 text-sm font-bold font-mono text-primary-foreground bg-primary rounded-lg shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-200"
                     >
                       Get Started
                     </Link>

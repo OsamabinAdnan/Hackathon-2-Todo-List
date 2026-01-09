@@ -34,17 +34,17 @@ export function AppFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div>
-            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-600 mb-3">
+            <h3 className="text-2xl font-bold font-mono bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-600 mb-3">
               Taskify
             </h3>
-            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 font-mono">
               A powerful multi-user task management application with advanced features for organizing your work efficiently.
             </p>
           </div>
 
           {/* Links Section */}
           <div>
-            <h4 className="font-semibold mb-4 text-gray-900 dark:text-gray-200">
+            <h4 className="font-semibold font-mono mb-4 text-gray-900 dark:text-gray-200">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -56,7 +56,7 @@ export function AppFooter() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-sm transition-colors duration-200 inline-block text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                    className="text-sm font-mono transition-colors duration-200 inline-block text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
                   >
                     {link.label}
                   </a>
@@ -67,7 +67,7 @@ export function AppFooter() {
 
           {/* Social Links Section */}
           <div>
-            <h4 className="font-semibold mb-4 text-gray-900 dark:text-gray-200">
+            <h4 className="font-semibold font-mono mb-4 text-gray-900 dark:text-gray-200">
               Connect With Me
             </h4>
             <div className="flex gap-4">
@@ -96,10 +96,10 @@ export function AppFooter() {
 
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-600 dark:text-gray-500">
+          <p className="text-sm text-gray-600 dark:text-gray-500 font-mono">
             © 2026 Taskify. All rights reserved.
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-500">
+          <p className="text-sm text-gray-600 dark:text-gray-500 font-mono">
             Built by <span className="font-semibold text-primary">Osama Bin Adnan</span>
           </p>
         </div>

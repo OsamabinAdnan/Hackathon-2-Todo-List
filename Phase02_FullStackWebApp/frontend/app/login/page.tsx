@@ -11,15 +11,15 @@ import { Label } from '@/components/ui/label';
 import { AnimatedCard, AnimatedPage } from '@/components/ui/animate';
 
 const toastSuccessClassNames = {
-  toast: 'glass-toast-success',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-success font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 const toastErrorClassNames = {
-  toast: 'glass-toast-error',
-  title: 'glass-toast-title',
-  description: 'glass-toast-description',
+  toast: 'glass-toast-error font-mono',
+  title: 'glass-toast-title font-mono',
+  description: 'glass-toast-description font-mono',
 };
 
 export default function LoginPage() {
@@ -120,9 +120,9 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center p-3 xs:p-4">
           <AnimatedCard delay={0.1} className="w-full max-w-md glass-card p-4 xs:p-6 sm:p-8">
             <div className="text-center mb-4 xs:mb-6">
-              <h1 className="text-3xl xs:text-4xl font-bold text-primary mb-1 xs:mb-2">Taskify</h1>
-              <h2 className="text-xl xs:text-2xl font-semibold text-foreground">Welcome Back</h2>
-              <p className="text-sm text-muted-foreground mt-1">Sign in to your account</p>
+              <h1 className="text-3xl xs:text-4xl font-bold font-mono text-primary mb-1 xs:mb-2">Taskify</h1>
+              <h2 className="text-xl xs:text-2xl font-semibold font-mono text-foreground">Welcome Back</h2>
+              <p className="text-sm font-mono text-muted-foreground mt-1">Sign in to your account</p>
             </div>
 
             {error && (
@@ -133,27 +133,27 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-5">
               <div>
-                <Label htmlFor="email" className="text-sm text-foreground">Email</Label>
+                <Label htmlFor="email" className="text-sm font-mono text-foreground">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="mt-1 bg-background/50 border-border/50 text-foreground rounded-lg py-2 px-3 w-full focus:ring-2 focus:ring-primary text-sm"
+                  className="mt-1 bg-background/50 border-border/50 text-foreground font-mono rounded-lg py-2 px-3 w-full focus:ring-2 focus:ring-primary text-sm placeholder:font-mono"
                   placeholder="your@email.com"
                 />
               </div>
 
               <div className="relative">
-                <Label htmlFor="password" className="text-sm text-foreground">Password</Label>
+                <Label htmlFor="password" className="text-sm font-mono text-foreground">Password</Label>
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="mt-1 bg-background/50 border-border/50 text-foreground rounded-lg py-2 px-3 w-full focus:ring-2 focus:ring-primary text-sm pr-10"
+                  className="mt-1 bg-background/50 border-border/50 text-foreground font-mono rounded-lg py-2 px-3 w-full focus:ring-2 focus:ring-primary text-sm pr-10 placeholder:font-mono"
                   placeholder="Enter your password"
                 />
                 <button
@@ -168,16 +168,16 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 rounded-lg transition-all duration-200 text-sm font-bold"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 rounded-lg transition-all duration-200 text-sm font-bold font-mono"
               >
                 Sign In
               </Button>
             </form>
 
             <div className="mt-4 xs:mt-6 text-center">
-              <p className="text-xs xs:text-sm text-muted-foreground">
+              <p className="text-xs xs:text-sm font-mono text-muted-foreground">
                 Don&apos;t have an account?{' '}
-                <Link href="/signup" className="text-primary hover:underline font-bold">
+                <Link href="/signup" className="text-primary hover:underline font-bold font-mono">
                   Sign up
                 </Link>
               </p>

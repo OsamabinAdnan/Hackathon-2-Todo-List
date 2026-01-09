@@ -149,9 +149,9 @@ export default function DashboardPage() {
           description: "You can't add a task for a past date and time. Please select a future date.",
           unstyled: true,
           classNames: {
-            toast: 'glass-toast-error',
-            title: 'glass-toast-title',
-            description: 'glass-toast-description',
+            toast: 'glass-toast-error font-mono',
+            title: 'glass-toast-title font-mono',
+            description: 'glass-toast-description font-mono',
           },
         });
         return;
@@ -184,9 +184,9 @@ export default function DashboardPage() {
           description: "You can't set a task for a past date and time. Please select a future date.",
           unstyled: true,
           classNames: {
-            toast: 'glass-toast-error',
-            title: 'glass-toast-title',
-            description: 'glass-toast-description',
+            toast: 'glass-toast-error font-mono',
+            title: 'glass-toast-title font-mono',
+            description: 'glass-toast-description font-mono',
           },
         });
         return;
@@ -294,12 +294,12 @@ export default function DashboardPage() {
           <AnimatedCard delay={0.1}>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 xs:gap-4">
               <div className="min-w-0">
-                <h1 className="text-xl xs:text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">Dashboard</h1>
-                <p className="text-muted-foreground mt-1 text-xs xs:text-sm sm:text-base lg:text-lg">Manage your tasks with focus and clarity.</p>
+                <h1 className="text-xl xs:text-2xl sm:text-3xl font-extrabold font-mono text-foreground tracking-tight">Dashboard</h1>
+                <p className="font-mono text-muted-foreground mt-1 text-xs xs:text-sm sm:text-base lg:text-lg">Manage your tasks with focus and clarity.</p>
               </div>
               <Button
                 onClick={openModal}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 py-3 px-4 xs:py-4 xs:px-6 sm:py-6 sm:px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-primary/25 font-bold text-sm xs:text-base sm:text-lg whitespace-nowrap"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 py-3 px-4 xs:py-4 xs:px-6 sm:py-6 sm:px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-primary/25 font-bold font-mono text-sm xs:text-base sm:text-lg whitespace-nowrap"
               >
                 <PlusIcon className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 mr-1 xs:mr-2" />
                 Add New Task
@@ -357,7 +357,7 @@ export default function DashboardPage() {
                     placeholder="Search tasks by title or description..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-12 pr-12 bg-background/30 backdrop-blur-sm border-border/50 text-foreground rounded-xl py-6 w-full focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-lg shadow-inner"
+                    className="pl-12 pr-12 bg-background/30 backdrop-blur-sm border-border/50 text-foreground font-mono rounded-xl py-6 w-full focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-lg shadow-inner placeholder:font-mono"
                   />
                   {searchTerm && (
                     <button
@@ -372,7 +372,7 @@ export default function DashboardPage() {
                 <Button
                   onClick={handleResetFilters}
                   variant="outline"
-                  className="h-12 px-6 rounded-xl border-border/50 hover:bg-accent flex items-center gap-2 font-bold transition-all"
+                  className="h-12 px-6 rounded-xl border-border/50 hover:bg-accent flex items-center gap-2 font-bold font-mono transition-all"
                   title="Reset all filters"
                 >
                   <RotateCcwIcon className="h-4 w-4" />
@@ -428,7 +428,7 @@ export default function DashboardPage() {
                   ]}
                 />
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-semibold text-muted-foreground ml-1">View Mode</label>
+                  <label className="text-sm font-mono font-semibold text-muted-foreground ml-1">View Mode</label>
                   <div className="flex h-10 rounded-lg bg-background/40 backdrop-blur-sm border border-border/50 overflow-hidden shadow-sm">
                     <button
                       onClick={() => setViewMode('list')}
@@ -456,8 +456,8 @@ export default function DashboardPage() {
           <div className="mt-8">
             <AnimatedCard delay={0.4}>
               <div className="flex items-center justify-between mb-6 px-2">
-                <h2 className="text-2xl font-bold text-foreground">Active Tasks</h2>
-                <div className="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-bold">
+                <h2 className="text-2xl font-bold font-mono text-foreground">Active Tasks</h2>
+                <div className="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-bold font-mono">
                   {filteredTasks.length} Result{filteredTasks.length !== 1 ? 's' : ''}
                 </div>
               </div>
@@ -517,7 +517,7 @@ export default function DashboardPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 xs:p-4 bg-background/80 backdrop-blur-xl animate-in fade-in duration-300">
           <div className="relative w-full max-w-lg bg-card border border-border/50 rounded-2xl xs:rounded-3xl shadow-2xl p-3 xs:p-4 sm:p-6 animate-in zoom-in-95 duration-300">
             <div className="flex justify-between items-center mb-3 xs:mb-4">
-              <h2 className="text-base xs:text-lg sm:text-xl font-extrabold text-foreground tracking-tight">
+              <h2 className="text-base xs:text-lg sm:text-xl font-extrabold text-foreground tracking-tight font-mono">
                 {editingTaskId ? 'Refine Task' : 'New Mission'}
               </h2>
               <button
@@ -530,35 +530,35 @@ export default function DashboardPage() {
 
             <form onSubmit={editingTaskId ? handleUpdateTask : handleAddTask} className="space-y-2.5 xs:space-y-3 sm:space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-muted-foreground ml-1">Task Title</label>
+                <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Task Title</label>
                 <Input
                   type="text"
                   value={newTask.title}
                   onChange={(e) => setNewTask({...newTask, title: e.target.value})}
                   placeholder="What needs to be done?"
                   required
-                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm"
+                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm font-mono"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-muted-foreground ml-1">Details (Optional)</label>
+                <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Details (Optional)</label>
                 <Input
                   type="text"
                   value={newTask.description}
                   onChange={(e) => setNewTask({...newTask, description: e.target.value})}
                   placeholder="Any additional context..."
-                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm"
+                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm font-mono"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2 xs:gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-muted-foreground ml-1">Priority</label>
+                  <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Priority</label>
                   <select
                     value={newTask.priority}
                     onChange={(e) => setNewTask({...newTask, priority: e.target.value as Priority})}
-                    className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2"
+                    className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2 font-mono"
                   >
                     <option value="none">None</option>
                     <option value="low">Low</option>
@@ -568,11 +568,11 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-muted-foreground ml-1">Recurrence</label>
+                  <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Recurrence</label>
                   <select
                     value={newTask.recurrence_pattern}
                     onChange={(e) => setNewTask({...newTask, recurrence_pattern: e.target.value as RecurrencePattern})}
-                    className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2"
+                    className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2 font-mono"
                   >
                     <option value="none">One-time</option>
                     <option value="daily">Daily</option>
@@ -584,23 +584,23 @@ export default function DashboardPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-muted-foreground ml-1">Deadline (Optional)</label>
+                <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Deadline (Optional)</label>
                 <input
                   type="datetime-local"
                   value={newTask.due_date}
                   onChange={(e) => setNewTask({...newTask, due_date: e.target.value})}
-                  className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
+                  className="w-full h-9 xs:h-10 bg-background/50 border border-border/50 rounded-xl px-3 text-sm text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm font-mono"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-muted-foreground ml-1">Tags (Comma separated)</label>
+                <label className="text-xs font-bold text-muted-foreground ml-1 font-mono">Tags (Comma separated)</label>
                 <Input
                   type="text"
                   value={newTask.tags}
                   onChange={(e) => setNewTask({...newTask, tags: e.target.value})}
                   placeholder="work, life, urgent..."
-                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm"
+                  className="bg-background/50 border-border/50 rounded-xl py-2 px-3 xs:py-2.5 xs:px-3.5 sm:py-3 sm:px-4 focus:ring-primary shadow-sm text-sm font-mono placeholder:font-mono"
                 />
               </div>
 
@@ -609,14 +609,14 @@ export default function DashboardPage() {
                   type="button"
                   onClick={closeModal}
                   variant="outline"
-                  className="flex-1 py-2 xs:py-2.5 sm:py-3 rounded-xl border-border/50 hover:bg-accent transition-all font-bold text-sm"
+                  className="flex-1 py-2 xs:py-2.5 sm:py-3 rounded-xl border-border/50 hover:bg-accent transition-all font-bold text-sm font-mono"
                 >
                   Discard
                 </Button>
                 <Button
                   type="submit"
                   disabled={createTaskMutation.isPending || updateTaskMutation.isPending}
-                  className="flex-1 py-2 xs:py-2.5 sm:py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all font-bold shadow-lg shadow-primary/20 text-sm"
+                  className="flex-1 py-2 xs:py-2.5 sm:py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all font-bold shadow-lg shadow-primary/20 text-sm font-mono"
                 >
                   {editingTaskId ? 'Update Details' : 'Initialize Task'}
                 </Button>
@@ -675,8 +675,8 @@ function StatCard({ title, value, icon, color, onClick, delay }: {
               </svg>
             </div>
             <div className="ml-3 xs:ml-4 sm:ml-5 min-w-0 flex-1">
-              <h3 className="text-[10px] xs:text-xs sm:text-sm font-bold text-muted-foreground uppercase tracking-wider truncate">{title}</h3>
-              <p className="text-2xl xs:text-3xl sm:text-4xl font-black text-foreground mt-0.5 xs:mt-1 tabular-nums">{value}</p>
+              <h3 className="text-[10px] xs:text-xs sm:text-sm font-bold font-mono text-muted-foreground uppercase tracking-wider truncate">{title}</h3>
+              <p className="text-2xl xs:text-3xl sm:text-4xl font-black font-mono text-foreground mt-0.5 xs:mt-1 tabular-nums">{value}</p>
             </div>
           </div>
         </CardContent>
@@ -690,14 +690,14 @@ function FilterSelect({ label, icon, value, onChange, options }: {
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-semibold text-muted-foreground ml-1 flex items-center gap-2">
+      <label className="text-sm font-semibold font-mono text-muted-foreground ml-1 flex items-center gap-2">
         {icon}
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-10 bg-background/40 backdrop-blur-sm border border-border/50 rounded-lg px-3 text-foreground focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2"
+        className="w-full h-10 bg-background/40 backdrop-blur-sm border border-border/50 rounded-lg px-3 text-foreground font-mono focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-sm [&>option]:bg-card [&>option]:text-foreground [&>option]:py-2"
       >
         {options.map(opt => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
