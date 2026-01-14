@@ -4,5 +4,6 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
+tmpclaude-*-cwd
 
 DEPLOYMENT.md
