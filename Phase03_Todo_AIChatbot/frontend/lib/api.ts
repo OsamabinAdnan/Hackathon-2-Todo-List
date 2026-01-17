@@ -47,7 +47,7 @@ const getAuthHeaders = () => {
   };
 };
 
-const getUserId = () => {
+export const getUserId = () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (!token) throw new Error('No authentication token found');
     return getUserIdFromToken(token);

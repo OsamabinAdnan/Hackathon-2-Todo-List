@@ -23,6 +23,7 @@ import { useTasks, useCreateTask, useUpdateTask, useDeleteTask, useToggleTaskCom
 import { TaskCard } from '@/components/tasks/TaskCard';
 import { DeleteConfirmationModal } from '@/components/tasks/DeleteConfirmationModal';
 import { ReminderBanner } from '@/components/tasks/ReminderBanner';
+import ChatKitWrapper from '@/components/ChatKitWrapper';
 
 export default function DashboardPage() {
   const { data: tasks = [], isLoading } = useTasks();
@@ -642,6 +643,9 @@ export default function DashboardPage() {
         onCancel={cancelDeleteTask}
         taskTitle={taskToDelete?.title}
       />
+
+      {/* AI Chatbot Assistant */}
+      <ChatKitWrapper />
     </div>
   );
 }
