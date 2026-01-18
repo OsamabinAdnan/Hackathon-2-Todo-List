@@ -19,7 +19,7 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 ---
 
-### Phase 3 (Completed)
+## Phase 3 (Completed)
 - Build and Integrate Todo AI Chatbot in Phase 2 Full-Stack Web Application which can perform task related CRUD operations
 - App Link [Taskify AI Chatbot](https://taskify-with-chatbot-osamabinadnan.vercel.app/)
 
@@ -29,11 +29,11 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 ---
 
-### Phase 4 (Not Started Yet)
+## Phase 4 (Not Started Yet)
 
 - Build a Todo Application with local kubernetes deployment.
 
-### Phase 5 (Not Started Yet)
+## Phase 5 (Not Started Yet)
 
 - Build a Advance Todo Application with local kubernetes setup and production-ready deployment on cloud.
 
