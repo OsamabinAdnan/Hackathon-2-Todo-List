@@ -13,9 +13,21 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 - Build a Todo Full-Stack Web Application
 - App Link [Taskify](https://taskify-osamabinadnan.vercel.app/)
 
-### Phase 3 (Not Started Yet)
+---
 
-- Build a Todo AI-powered Chatbot Application
+![Phase 2: Taskify](assets/Phase2_taskify.png)
+
+---
+
+### Phase 3 (Completed)
+- Build and Integrate Todo AI Chatbot in Phase 2 Full-Stack Web Application which can perform task related CRUD operations
+- App Link [Taskify AI Chatbot](https://taskify-with-chatbot-osamabinadnan.vercel.app/)
+
+---
+
+![Phase 3: Taskify](assets/Phase3_taskify.png)
+
+---
 
 ### Phase 4 (Not Started Yet)
 
