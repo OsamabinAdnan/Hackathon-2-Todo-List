@@ -11,8 +11,7 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 ## Phase 2 (Completed)
 
 - Build a Todo Full-Stack Web Application
-
-App Link [Taskify](https://taskify-osamabinadnan.vercel.app/)
+- App Link [Taskify](https://taskify-osamabinadnan.vercel.app/)
 
 ### Phase 3 (Not Started Yet)
 
