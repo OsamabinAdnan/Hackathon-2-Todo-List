@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     JWT_EXPIRY_DAYS: int = 7
 
     # CORS - Store as raw string and parse it
-    ALLOWED_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://localhost:3001", "http://localhost:8000"]
+    ALLOWED_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://localhost:3001", "http://localhost:8000", "https://taskify-with-chatbot-osamabinadnan.vercel.app", "https://osamabinadnan-fullstacktodoapp-with-todo-ai-chatbot.hf.space"]
 
     # Environment
     ENVIRONMENT: str = "development"
