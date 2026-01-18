@@ -8,6 +8,12 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 - Build a Todo In-Memory Python Console App
 
+---
+
+![Phase 1: Taskify](assets/Phase1_taskify.png)
+
+---
+
 ## Phase 2 (Completed)
 
 - Build a Todo Full-Stack Web Application
