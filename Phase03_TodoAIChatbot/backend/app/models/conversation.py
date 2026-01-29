@@ -9,7 +9,7 @@ class Conversation(SQLModel, table=True):
     __tablename__ = "conversations"
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    user_id: str = Field(foreign_key="users.id", index=True)  # Using str to match user ID format
+    user_id: uuid.UUID = Field(foreign_key="users.id", index=True)  # Using uuid.UUID to match users.id type
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
     updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
@@ -18,7 +18,7 @@ class Message(SQLModel, table=True):
     __tablename__ = "messages"
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    user_id: str = Field(foreign_key="users.id", index=True)  # Using str to match user ID format
+    user_id: uuid.UUID = Field(foreign_key="users.id", index=True)  # Using uuid.UUID to match users.id type
     conversation_id: uuid.UUID = Field(foreign_key="conversations.id", index=True)
     role: str = Field(sa_column=Column(Text, nullable=False))  # "user" or "assistant"
     content: str = Field(sa_column=Column(Text, nullable=False))

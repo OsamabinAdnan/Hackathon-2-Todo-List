@@ -17,7 +17,7 @@ load_dotenv()
 # Primary: OpenRouter (free tier available)
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_URL = os.getenv("OPENROUTER_URL", "https://openrouter.ai/api/v1")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "mistralai/devstral-2512:free")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "arcee-ai/trinity-large-preview:free")
 
 # Fallback: Cohere API
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
@@ -34,7 +34,7 @@ if OPENROUTER_API_KEY:
     # Use OpenRouter API
     API_KEY = OPENROUTER_API_KEY
     BASE_URL = "https://openrouter.ai/api/v1"
-    MODEL = os.getenv("OPENROUTER_MODEL", "mistralai/devstral-2512:free")
+    MODEL = os.getenv("OPENROUTER_MODEL", "arcee-ai/trinity-large-preview:free")
 elif COHERE_API_KEY:
     # Use Cohere API
     API_KEY = COHERE_API_KEY

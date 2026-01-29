@@ -5,9 +5,9 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SendIcon, BotIcon, XIcon, MessageSquareIcon } from 'lucide-react';
+import { SendIcon, BotIcon, XIcon, MessageSquareIcon, PlusIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { sendMessage } from '@/lib/api/chat';
+import { sendMessage, getConversationHistory, createConversation, listUserConversations } from '@/lib/api/chat';
 import { getUserId } from '@/lib/api';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -43,6 +43,23 @@ interface ChatMessage {
   timestamp: Date;
 }
 
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+interface Conversation {
+  id: string;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  first_message?: string;
+  last_message?: string;
+  message_count: number;
+}
+
 interface ChatKitWrapperProps {
   // No props needed - userId is obtained from auth token
 }
@@ -60,6 +77,9 @@ export default function ChatKitWrapper({}: ChatKitWrapperProps) {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [showConversationList, setShowConversationList] = useState(false);
+  const [loadingConversations, setLoadingConversations] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
 
@@ -67,9 +87,118 @@ export default function ChatKitWrapper({}: ChatKitWrapperProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const loadConversations = async () => {
+    try {
+      setLoadingConversations(true);
+      const userId = getUserId();
+      const userConversations = await listUserConversations(userId);
+
+      // Ensure all conversations have the expected structure
+      const formattedConversations: Conversation[] = userConversations.map(conv => ({
+        id: conv.id,
+        user_id: conv.user_id,
+        created_at: conv.created_at,
+        updated_at: conv.updated_at,
+        first_message: conv.first_message || '',
+        last_message: conv.last_message || '',
+        message_count: conv.message_count || 0
+      }));
+
+      setConversations(formattedConversations);
+    } catch (error) {
+      console.error('Error loading conversations:', error);
+      toast.error('Failed to load conversations', {
+        description: 'Unable to load conversation history',
+        duration: 4000,
+        unstyled: true,
+        classNames: toastErrorClassNames,
+      });
+    } finally {
+      setLoadingConversations(false);
+    }
+  };
+
+  const loadConversationHistory = async (convId: string) => {
+    try {
+      setIsLoading(true);
+      const userId = getUserId();
+      const history = await getConversationHistory(userId, convId);
+
+      // Convert API response to ChatMessage format
+      const chatMessages: ChatMessage[] = history.map((msg: any) => ({
+        id: msg.id,
+        role: msg.role,
+        content: msg.content,
+        timestamp: new Date(msg.created_at)
+      }));
+
+      setMessages(chatMessages);
+      setConversationId(convId);
+      setShowConversationList(false);
+      toast.success('Conversation loaded', {
+        description: 'Previous conversation loaded successfully',
+        duration: 4000,
+        unstyled: true,
+        classNames: toastSuccessClassNames,
+      });
+    } catch (error) {
+      console.error('Error loading conversation history:', error);
+      toast.error('Failed to load conversation', {
+        description: 'Unable to load conversation history',
+        duration: 4000,
+        unstyled: true,
+        classNames: toastErrorClassNames,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const startNewConversation = async () => {
+    try {
+      setIsLoading(true);
+      const userId = getUserId();
+      const newConv = await createConversation(userId);
+
+      // Clear current messages and start fresh
+      setMessages([
+        {
+          id: '1',
+          role: 'assistant',
+          content: 'Hello! I\'m your AI Todo Assistant. This is a new conversation. How can I help you today?',
+          timestamp: new Date()
+        }
+      ]);
+      setConversationId(newConv.id);
+
+      toast.success('New conversation started', {
+        description: 'A new conversation has been created',
+        duration: 4000,
+        unstyled: true,
+        classNames: toastSuccessClassNames,
+      });
+    } catch (error) {
+      console.error('Error creating new conversation:', error);
+      toast.error('Failed to create conversation', {
+        description: 'Unable to create a new conversation',
+        duration: 4000,
+        unstyled: true,
+        classNames: toastErrorClassNames,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (isOpen && conversations.length === 0) {
+      loadConversations();
+    }
+  }, [isOpen]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -205,20 +334,93 @@ export default function ChatKitWrapper({}: ChatKitWrapperProps) {
                 <p className="text-sm text-muted-foreground">Ask me to manage your tasks</p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8 rounded-full hover:bg-white/20"
-            >
-              <XIcon className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowConversationList(!showConversationList)}
+                className="h-8 w-8 rounded-full hover:bg-white/20 hover:text-primary"
+                title="View conversations"
+              >
+                <MessageSquareIcon className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={startNewConversation}
+                className="h-8 w-8 rounded-full hover:bg-white/20 hover:text-primary"
+                title="New conversation"
+                disabled={isLoading}
+              >
+                <PlusIcon className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsOpen(false)}
+                className="h-8 w-8 rounded-full hover:bg-white/20 hover:text-primary"
+              >
+                <XIcon className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </CardHeader>
 
         <CardContent className="flex-1 overflow-hidden p-0">
+          {/* Conversation List Panel */}
+          {showConversationList && (
+            <div className="absolute inset-0 z-10 bg-white/40 dark:bg-black/20 backdrop-blur-2xl rounded-lg border border-white/90 dark:border-white/20 p-4 overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold">Conversations</h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowConversationList(false)}
+                  className="h-6 w-6 rounded-full hover:bg-white/20"
+                >
+                  <XIcon className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {loadingConversations ? (
+                <div className="flex justify-center items-center h-40">
+                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
+                </div>
+              ) : conversations.length === 0 ? (
+                <div className="text-center text-muted-foreground py-8">
+                  No conversations found
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-80 overflow-y-auto">
+                  {conversations.map((conv) => (
+                    <div
+                      key={conv.id}
+                      className="p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 cursor-pointer transition-colors"
+                      onClick={() => loadConversationHistory(conv.id)}
+                    >
+                      <div className="font-medium truncate text-sm">
+                        {conv.first_message ? `"${conv.first_message}"` : 'New Conversation'}
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {conv.message_count} message{conv.message_count !== 1 ? 's' : ''} • Updated: {new Date(conv.updated_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <Button
+                className="w-full mt-4"
+                onClick={startNewConversation}
+                disabled={isLoading}
+              >
+                Start New Conversation
+              </Button>
+            </div>
+          )}
+
           {/* Messages Container */}
-          <div className="h-full flex flex-col">
+          <div className={`h-full flex flex-col transition-opacity duration-300 ${showConversationList ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map((message) => (

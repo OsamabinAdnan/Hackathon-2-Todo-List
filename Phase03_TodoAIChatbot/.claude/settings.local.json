@@ -4,7 +4,10 @@
       "Bash(findstr /n \"map\\(\\(task, index\\)\" \"G:\\\\osamabinadnan_files\\\\giaic\\\\quarter_04_plus\\\\Hackathon-2-Todo-List\\\\Phase02_FullStackWebApp\\\\frontend\\\\app\\\\dashboard\\\\page.tsx\")",
       "Skill(skill-creator)",
       "mcp__context7__resolve-library-id",
-      "mcp__context7__query-docs"
+      "mcp__context7__query-docs",
+      "Bash(dir /s)",
+      "Bash(powershell Get-ChildItem -Recurse)",
+      "Bash(dir)"
     ]
   }
 }

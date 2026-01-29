@@ -60,7 +60,10 @@ async def root():
             "/api/{user_id}/tasks/{task_id}": "PUT endpoint to update a specific task (requires JWT token)",
             "/api/{user_id}/tasks/{task_id}": "DELETE endpoint to delete a specific task (requires JWT token)",
             "/api/{user_id}/tasks/{task_id}/complete": "PATCH endpoint to toggle task completion status (requires JWT token)",
-            "/api/{user_id}/chat": "POST endpoint to send messages and get AI responses (requires JWT token)"
+            "/api/{user_id}/chat": "POST endpoint to send messages and get AI responses (requires JWT token)",
+            "/api/{user_id}/conversations/{conversation_id}/messages": "GET endpoint to retrieve conversation history (requires JWT token)",
+            "/api/{user_id}/conversations": "POST endpoint to create a new conversation (requires JWT token)",
+            "/api/{user_id}/conversations": "GET endpoint to list all user's conversations (requires JWT token)"
         }
     }
 

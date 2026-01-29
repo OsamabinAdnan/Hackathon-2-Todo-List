@@ -95,3 +95,40 @@ export async function createConversation(userId: string): Promise<{ id: string }
   const data: { id: string } = await response.json();
   return data;
 }
+
+/**
+ * List all user's conversations
+ */
+export async function listUserConversations(userId: string): Promise<Array<{
+  id: string;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  first_message: string;
+  last_message: string;
+  message_count: number;
+}>> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/${userId}/conversations`,
+    {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to list conversations: ${response.status}`);
+  }
+
+  const data: Array<{
+    id: string;
+    user_id: string;
+    created_at: string;
+    updated_at: string;
+    first_message: string;
+    last_message: string;
+    message_count: number;
+  }> = await response.json();
+
+  return data;
+}
