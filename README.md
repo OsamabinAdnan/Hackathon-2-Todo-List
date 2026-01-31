@@ -10,7 +10,7 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 ---
 
-![Phase 1: Taskify](assets/Phase1_taskify.png)
+![Phase 1: Taskify](assets/Phase1_taskify.png "Taskify In-Memory Python Console App")
 
 ---
 
@@ -21,7 +21,7 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 ---
 
-![Phase 2: Taskify](assets/Phase2_taskify.png)
+![Phase 2: Taskify](assets/Phase2_taskify.png "Taskify Full-Stack Web Application")
 
 ---
 
@@ -31,13 +31,23 @@ Read the given documentation [here](https://docs.google.com/document/d/1KHxeDNnq
 
 ---
 
-![Phase 3: Taskify](assets/Phase3_taskify.png)
+![Phase 3: Taskify](assets/Phase3_taskify.png "Taskify AI Chatbot")
 
 ---
 
-## Phase 4 (Not Started Yet)
+## Phase 4 (Completed)
 
 - Build a Todo Application with local kubernetes deployment.
+- Deploy the Todo AI Chatbot application to a local Kubernetes cluster using Minikube
+- Containerize both frontend and backend applications with Docker
+- Package applications using Helm charts for easy deployment
+- Implement AI-assisted DevOps operations using Gordon, kubectl-ai, and kagent
+
+---
+
+![Phase 4: Taskify](assets/Phase04%20screeshot.png "Docker Image")
+
+---
 
 ## Phase 5 (Not Started Yet)
 
