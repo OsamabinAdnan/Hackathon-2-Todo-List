@@ -1,0 +1,80 @@
+# Default values for todo-chatbot
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  imagePullPolicy: IfNotPresent
+  logLevel: INFO
+
+# Configuration values - non-sensitive settings
+config:
+  ENVIRONMENT: "production"
+  JWT_ALGORITHM: "HS256"
+  JWT_EXPIRY_DAYS: "7"
+  ALLOWED_ORIGINS: '["http://localhost:3000","https://taskify-with-chatbot-osamabinadnan.vercel.app","https://osamabinadnan-fullstacktodoapp-with-todo-ai-chatbot.hf.space"]'
+
+# Secret values - empty placeholders, real values provided separately
+secrets:
+  JWT_SECRET: ""
+  JWT_ALGORITHM: "HS256"
+  JWT_EXPIRY_DAYS: "7"
+  NEON_DB_URL: ""
+  ENVIRONMENT: "production"
+  ALLOWED_ORIGINS: '["http://localhost:3000","https://taskify-with-chatbot-osamabinadnan.vercel.app","https://osamabinadnan-fullstacktodoapp-with-todo-ai-chatbot.hf.space"]'
+  OPENROUTER_API_KEY: ""
+  OPENROUTER_URL: "https://openrouter.ai/api/v1"
+  OPENROUTER_MODEL: "arcee-ai/trinity-large-preview:free"
+  QWEN_API_KEY: ""
+  QWEN_URL: "https://portal.qwen.ai/v1"
+  QWEN_MODEL: "qwen3-coder-plus"
+  COHERE_API_KEY: ""
+  COHERE_URL: "https://api.cohere.ai/v1"
+  COHERE_MODEL: "command-a-03-2025"
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: todo-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 3000
+    targetPort: 3000
+  config:
+    apiUrl: "http://todo-app-todo-chatbot-backend:8000"  # Internal service name
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+backend:
+  replicaCount: 1
+  image:
+    repository: todo-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 8000
+    targetPort: 8000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  host: "todo.local"
+  paths:
+    - path: /
+      pathType: Prefix
+  tls: []

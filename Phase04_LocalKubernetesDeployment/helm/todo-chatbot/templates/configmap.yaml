@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "todo-chatbot.fullname" . }}-config
+  labels:
+    {{- include "todo-chatbot.labels" . | nindent 4 }}
+data:
+  LOG_LEVEL: {{ .Values.global.logLevel | default "INFO" | quote }}
+  ENVIRONMENT: {{ .Values.config.ENVIRONMENT | default "production" | quote }}
+  JWT_ALGORITHM: {{ .Values.config.JWT_ALGORITHM | default "HS256" | quote }}
+  JWT_EXPIRY_DAYS: {{ .Values.config.JWT_EXPIRY_DAYS | default "7" | quote }}
+  ALLOWED_ORIGINS: {{ .Values.config.ALLOWED_ORIGINS | quote }}

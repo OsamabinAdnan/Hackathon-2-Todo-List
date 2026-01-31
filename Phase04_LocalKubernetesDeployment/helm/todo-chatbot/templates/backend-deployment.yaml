@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "todo-chatbot.fullname" . }}-backend
+  labels:
+    {{- include "todo-chatbot.labels" . | nindent 4 }}
+    app: backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "todo-chatbot.selectorLabels" . | nindent 6 }}
+      app: backend
+  template:
+    metadata:
+      labels:
+        {{- include "todo-chatbot.selectorLabels" . | nindent 8 }}
+        app: backend
+    spec:
+      securityContext:
+        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: backend
+          securityContext:
+            {{- toYaml .Values.backend.securityContext | nindent 12 }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: NEON_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-db-secret
+                  key: NEON_DB_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-jwt-secret
+                  key: JWT_SECRET
+            - name: JWT_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-config
+                  key: JWT_ALGORITHM
+            - name: JWT_EXPIRY_DAYS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-config
+                  key: JWT_EXPIRY_DAYS
+            - name: ALLOWED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-config
+                  key: ALLOWED_ORIGINS
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-config
+                  key: ENVIRONMENT
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: OPENROUTER_API_KEY
+            - name: OPENROUTER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: OPENROUTER_URL
+            - name: OPENROUTER_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: OPENROUTER_MODEL
+            - name: QWEN_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: QWEN_API_KEY
+            - name: QWEN_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: QWEN_URL
+            - name: QWEN_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: QWEN_MODEL
+            - name: COHERE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: COHERE_API_KEY
+            - name: COHERE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: COHERE_URL
+            - name: COHERE_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "todo-chatbot.fullname" . }}-ai-secret
+                  key: COHERE_MODEL
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+      {{- with .Values.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
