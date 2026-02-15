@@ -1,0 +1,211 @@
+# Kubernetes Manifests Contract for Phase 4: Local Kubernetes Deployment
+
+# This contract defines the expected Kubernetes manifests that will be
+# generated and deployed to Minikube for the Todo Chatbot application
+# using Helm Charts, kubectl-ai, Kagent, Docker Desktop, and Gordon
+
+manifests:
+  # Helm Chart Structure
+  helm_chart:
+    metadata:
+      name: "todo-chatbot"
+      version: "1.0.0"
+      description: "Helm chart for deploying Todo Chatbot to Kubernetes"
+      apiVersion: "v2"
+
+    templates:
+      - name: "frontend-deployment.yaml"
+        kind: "Deployment"
+        description: "Deploys the Next.js frontend application"
+        properties:
+          replicas: "{{ .Values.frontend.replicaCount }}"
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          ports: ["{{ .Values.frontend.service.port }}"]
+          resources:
+            requests:
+              cpu: "{{ .Values.frontend.resources.requests.cpu }}"
+              memory: "{{ .Values.frontend.resources.requests.memory }}"
+            limits:
+              cpu: "{{ .Values.frontend.resources.limits.cpu }}"
+              memory: "{{ .Values.frontend.resources.limits.memory }}"
+
+      - name: "frontend-service.yaml"
+        kind: "Service"
+        description: "Exposes the frontend application via NodePort"
+        properties:
+          type: "{{ .Values.frontend.service.type }}"
+          port: "{{ .Values.frontend.service.port }}"
+          targetPort: "{{ .Values.frontend.service.port }}"
+          nodePort: "{{ .Values.frontend.service.nodePort }}"
+
+      - name: "backend-deployment.yaml"
+        kind: "Deployment"
+        description: "Deploys the FastAPI backend application"
+        properties:
+          replicas: "{{ .Values.backend.replicaCount }}"
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          ports: ["{{ .Values.backend.service.port }}"]
+          env:
+            - name: "NEON_DB_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: "todo-secrets"
+                  key: "NEON_DB_URL"
+            - name: "JWT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: "todo-secrets"
+                  key: "JWT_SECRET"
+
+      - name: "backend-service.yaml"
+        kind: "Service"
+        description: "Exposes the backend application internally"
+        properties:
+          type: "{{ .Values.backend.service.type }}"
+          port: "{{ .Values.backend.service.port }}"
+          targetPort: "{{ .Values.backend.service.port }}"
+
+      - name: "mcp-deployment.yaml"
+        kind: "Deployment"
+        description: "Deploys the Model Context Protocol server"
+        properties:
+          replicas: "{{ .Values.mcpServer.replicaCount }}"
+          image: "{{ .Values.mcpServer.image.repository }}:{{ .Values.mcpServer.image.tag }}"
+          ports: ["{{ .Values.mcpServer.service.port }}"]
+          env:
+            - name: "BETTER_AUTH_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: "todo-secrets"
+                  key: "JWT_SECRET"
+
+      - name: "mcp-service.yaml"
+        kind: "Service"
+        description: "Exposes the MCP server internally"
+        properties:
+          type: "{{ .Values.mcpServer.service.type }}"
+          port: "{{ .Values.mcpServer.service.port }}"
+          targetPort: "{{ .Values.mcpServer.service.port }}"
+
+      - name: "configmap.yaml"
+        kind: "ConfigMap"
+        description: "Configuration for the Todo application"
+        properties:
+          data:
+            LOG_LEVEL: "{{ .Values.config.logLevel }}"
+            API_TIMEOUT: "{{ .Values.config.apiTimeout }}"
+
+      - name: "secret.yaml"
+        kind: "Secret"
+        description: "Sensitive data for the Todo application"
+        properties:
+          type: "Opaque"
+          data:
+            NEON_DB_URL: "base64 encoded value from .Values.secrets.neonDbUrl"
+            JWT_SECRET: "base64 encoded value from .Values.secrets.jwtSecret"
+
+      - name: "ingress.yaml"
+        kind: "Ingress"
+        description: "Ingress rule for external access (optional)"
+        properties:
+          enabled: "{{ .Values.ingress.enabled }}"
+          host: "{{ .Values.ingress.host }}"
+          path: "{{ .Values.ingress.path }}"
+
+  values_schema:
+    frontend:
+      replicaCount: "integer (default: 1)"
+      image:
+        repository: "string (default: 'todo-frontend')"
+        pullPolicy: "string (default: 'IfNotPresent')"
+        tag: "string (default: 'latest')"
+      service:
+        type: "string (default: 'NodePort')"
+        port: "integer (default: 3000)"
+        nodePort: "integer (default: 30080)"
+      resources:
+        limits:
+          cpu: "string (default: '500m')"
+          memory: "string (default: '512Mi')"
+        requests:
+          cpu: "string (default: '100m')"
+          memory: "string (default: '128Mi')"
+      healthChecks:
+        readinessProbe: "object (HTTP readiness probe configuration)"
+        livenessProbe: "object (HTTP liveness probe configuration)"
+
+    backend:
+      replicaCount: "integer (default: 1)"
+      image:
+        repository: "string (default: 'todo-backend')"
+        pullPolicy: "string (default: 'IfNotPresent')"
+        tag: "string (default: 'latest')"
+      service:
+        type: "string (default: 'ClusterIP')"
+        port: "integer (default: 8000)"
+      resources:
+        limits:
+          cpu: "string (default: '500m')"
+          memory: "string (default: '512Mi')"
+        requests:
+          cpu: "string (default: '100m')"
+          memory: "string (default: '128Mi')"
+
+    mcpServer:
+      replicaCount: "integer (default: 1)"
+      image:
+        repository: "string (default: 'todo-backend')"
+        pullPolicy: "string (default: 'IfNotPresent')"
+        tag: "string (default: 'latest')"
+      service:
+        type: "string (default: 'ClusterIP')"
+        port: "integer (default: 8001)"
+      resources:
+        limits:
+          cpu: "string (default: '500m')"
+          memory: "string (default: '512Mi')"
+        requests:
+          cpu: "string (default: '100m')"
+          memory: "string (default: '128Mi')"
+
+# AI Operations Contract
+ai_operations:
+  docker_operations:
+    - command: "docker ai 'generate optimized Dockerfile for Next.js app'"
+      purpose: "Generate optimized Dockerfile for frontend using Gordon"
+    - command: "docker ai 'optimize Dockerfile for FastAPI app with production configuration'"
+      purpose: "Optimize existing backend Dockerfile using Gordon"
+
+  kubernetes_operations:
+    - command: "kubectl-ai 'create helm chart structure for todo-chatbot with frontend and backend deployments'"
+      purpose: "Generate Helm chart structure using kubectl-ai"
+    - command: "kubectl-ai 'scale frontend deployment to 2 replicas'"
+      purpose: "Scale frontend deployment using kubectl-ai"
+    - command: "kubectl-ai 'check why pods are failing'"
+      purpose: "Troubleshoot deployment issues using kubectl-ai"
+
+  cluster_analysis:
+    - command: "kagent 'analyze cluster health'"
+      purpose: "Analyze cluster health using Kagent"
+    - command: "kagent 'optimize resource allocation'"
+      purpose: "Optimize resource allocation using Kagent"
+
+# Deployment Workflow Contract
+deployment_workflow:
+  step_1: "Containerize applications using Gordon (Docker AI Agent)"
+  step_2: "Build and tag Docker images"
+  step_3: "Load images into Minikube"
+  step_4: "Generate Helm chart using kubectl-ai"
+  step_5: "Install Helm chart to Minikube"
+  step_6: "Validate deployment using kubectl and AI agents"
+  step_7: "Perform scaling and health checks using kubectl-ai and Kagent"
+
+# Expected Outcomes
+expected_outcomes:
+  - "Frontend service accessible via NodePort on Minikube"
+  - "Backend API service running internally with ClusterIP"
+  - "MCP server operational for AI chatbot functionality"
+  - "All Phase 3 features preserved (task CRUD via chat interface)"
+  - "Multi-user isolation maintained (JWT + user_id filtering)"
+  - "Successful deployment using AI-assisted operations (Gordon, kubectl-ai, Kagent)"
+  - "Reusable Helm chart for future deployments"

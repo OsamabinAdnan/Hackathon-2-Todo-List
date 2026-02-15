@@ -1,0 +1,181 @@
+# Default values for todo-chatbot
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  imagePullPolicy: IfNotPresent
+  logLevel: INFO
+
+# Configuration values - non-sensitive settings
+config:
+  ENVIRONMENT: "production"
+  JWT_ALGORITHM: "HS256"
+  JWT_EXPIRY_DAYS: "7"
+  ALLOWED_ORIGINS: '["http://localhost:3000","https://taskify-with-chatbot-osamabinadnan.vercel.app","https://osamabinadnan-fullstacktodoapp-with-todo-ai-chatbot.hf.space"]'
+
+# Secret values - empty placeholders, real values provided separately
+secrets:
+  JWT_SECRET: ""
+  JWT_ALGORITHM: "HS256"
+  JWT_EXPIRY_DAYS: "7"
+  NEON_DB_URL: ""
+  ENVIRONMENT: "production"
+  ALLOWED_ORIGINS: '["http://localhost:3000","https://taskify-with-chatbot-osamabinadnan.vercel.app","https://osamabinadnan-fullstacktodoapp-with-todo-ai-chatbot.hf.space"]'
+  OPENROUTER_API_KEY: ""
+  OPENROUTER_URL: "https://openrouter.ai/api/v1"
+  OPENROUTER_MODEL: "arcee-ai/trinity-large-preview:free"
+  QWEN_API_KEY: ""
+  QWEN_URL: "https://portal.qwen.ai/v1"
+  QWEN_MODEL: "qwen3-coder-plus"
+  COHERE_API_KEY: ""
+  COHERE_URL: "https://api.cohere.ai/v1"
+  COHERE_MODEL: "command-a-03-2025"
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: todo-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 3000
+    targetPort: 3000
+  config:
+    apiUrl: "http://todo-app-todo-chatbot-backend:8000"  # Internal service name
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+backend:
+  replicaCount: 1
+  image:
+    repository: todo-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 8000
+    targetPort: 8000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  # Pod security context
+  podSecurityContext: {}
+  securityContext: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+# Phase 5: Notification Service Configuration
+notificationService:
+  enabled: false  # Enable when deploying with Dapr/Kafka
+  replicaCount: 1
+  image:
+    repository: notification-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8001
+    targetPort: 8001
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  podSecurityContext: {}
+  securityContext: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+# Phase 5: Recurring Task Service Configuration
+recurringService:
+  enabled: false  # Enable when deploying with Dapr/Kafka
+  replicaCount: 1
+  image:
+    repository: recurring-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8002
+    targetPort: 8002
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  podSecurityContext: {}
+  securityContext: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  host: "todo.local"
+  paths:
+    - path: /
+      pathType: Prefix
+  tls: []
+
+# Phase 5: Dapr Configuration
+dapr:
+  enabled: false  # Set to true to enable Dapr sidecar injection
+  httpPort: 3500
+  grpcPort: 50001
+  config: "appconfig"
+  logLevel: "info"
+  pubsubName: "kafka-pubsub"
+  stateStoreName: "statestore"
+  secretStoreName: "kubernetes-secrets"
+
+  backend:
+    appId: "todo-backend"
+    appPort: 8000
+    enableMetrics: true
+    metricsPort: 9090
+
+  frontend:
+    appId: "todo-frontend"
+    appPort: 3000
+    enableMetrics: false
+
+  notificationService:
+    appId: "notification-service"
+    appPort: 8001
+    enableMetrics: true
+    metricsPort: 9091
+
+  recurringService:
+    appId: "recurring-service"
+    appPort: 8002
+    enableMetrics: true
+    metricsPort: 9092
+
+# Phase 5: Kafka Configuration (for Strimzi)
+kafka:
+  enabled: false  # Set to true when deploying with Kafka
+  clusterName: "taskflow-kafka"
+  namespace: "kafka"
+  bootstrapServers: "taskflow-kafka-kafka-bootstrap.kafka:9092"
+  topics:
+    taskEvents: "task-events"
+    reminders: "reminders"
+    taskUpdates: "task-updates"

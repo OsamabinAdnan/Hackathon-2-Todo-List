@@ -1,0 +1,151 @@
+# Minikube-specific values for Todo Chatbot
+# Phase 5: Local Kubernetes Deployment with Dapr and Kafka
+#
+# Usage:
+#   helm install todo-chatbot . -f values-minikube.yaml
+
+global:
+  imagePullPolicy: IfNotPresent
+  logLevel: DEBUG  # More verbose logging for local development
+
+# Configuration values
+config:
+  ENVIRONMENT: "development"
+  JWT_ALGORITHM: "HS256"
+  JWT_EXPIRY_DAYS: "7"
+  ALLOWED_ORIGINS: '["http://localhost:3000","http://127.0.0.1:3000"]'
+
+# Frontend configuration
+frontend:
+  replicaCount: 1
+  image:
+    repository: todo-frontend
+    tag: latest
+    pullPolicy: Never  # Use local images in Minikube
+  service:
+    type: NodePort
+    port: 3000
+    targetPort: 3000
+    nodePort: 30080  # Fixed NodePort for easy access
+  config:
+    apiUrl: "http://todo-chatbot-backend:8000"
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+# Backend configuration
+backend:
+  replicaCount: 1
+  image:
+    repository: todo-backend
+    tag: latest
+    pullPolicy: Never  # Use local images in Minikube
+  service:
+    type: NodePort
+    port: 8000
+    targetPort: 8000
+    nodePort: 30081  # Fixed NodePort for easy access
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Notification service configuration
+notificationService:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: notification-service
+    tag: latest
+    pullPolicy: Never
+  service:
+    type: ClusterIP
+    port: 8001
+    targetPort: 8001
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+# Recurring task service configuration
+recurringService:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: recurring-service
+    tag: latest
+    pullPolicy: Never
+  service:
+    type: ClusterIP
+    port: 8002
+    targetPort: 8002
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+# Ingress disabled for Minikube (use NodePort instead)
+ingress:
+  enabled: false
+
+# Phase 5: Dapr Configuration (Enabled for Minikube)
+dapr:
+  enabled: true
+  httpPort: 3500
+  grpcPort: 50001
+  config: "appconfig"
+  logLevel: "debug"  # Verbose logging for development
+  pubsubName: "kafka-pubsub"
+  stateStoreName: "statestore"
+  secretStoreName: "kubernetes-secrets"
+
+  backend:
+    appId: "todo-backend"
+    appPort: 8000
+    enableMetrics: true
+    metricsPort: 9090
+
+  frontend:
+    appId: "todo-frontend"
+    appPort: 3000
+    enableMetrics: false
+
+  notificationService:
+    appId: "notification-service"
+    appPort: 8001
+    enableMetrics: true
+    metricsPort: 9091
+
+  recurringService:
+    appId: "recurring-service"
+    appPort: 8002
+    enableMetrics: true
+    metricsPort: 9092
+
+# Phase 5: Kafka Configuration (Redpanda on Minikube)
+kafka:
+  enabled: true
+  clusterName: "redpanda"
+  namespace: "kafka"
+  bootstrapServers: "redpanda-0.redpanda.kafka.svc.cluster.local:9093"
+  topics:
+    taskEvents: "task-events"
+    reminders: "reminders"
+    taskUpdates: "task-updates"
+  # Minikube-specific: single replica for resource conservation
+  replicas: 1
+  storage:
+    type: ephemeral  # No persistent storage for local development

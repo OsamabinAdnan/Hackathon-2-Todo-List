@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReminderEvent",
+  "description": "Event published to reminders Kafka topic when a scheduled reminder fires",
+  "type": "object",
+  "required": ["event_id", "event_type", "task_id", "user_id", "title", "due_at", "remind_at", "timestamp", "correlation_id"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this event"
+    },
+    "event_type": {
+      "type": "string",
+      "const": "reminder.due",
+      "description": "Always 'reminder.due' for reminder events"
+    },
+    "task_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID of the task this reminder is for"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID of the user to notify"
+    },
+    "title": {
+      "type": "string",
+      "description": "Task title for notification display"
+    },
+    "due_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task is due"
+    },
+    "remind_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the reminder was scheduled to fire"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the event was published"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Correlation ID for distributed tracing"
+    }
+  }
+}

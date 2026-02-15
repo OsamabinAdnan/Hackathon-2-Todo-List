@@ -1,0 +1,53 @@
+# Kafka Topics for Todo Application
+# Phase 5: Event-driven architecture
+# Topics: task-events, reminders, task-updates
+# API Version: v1 (Strimzi 0.49.0+)
+
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: task-events
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: taskflow-kafka
+spec:
+  partitions: 3
+  replicas: 1  # Set to 3 for production
+  config:
+    retention.ms: "604800000"  # 7 days
+    cleanup.policy: delete
+    max.message.bytes: "1048576"  # 1MB
+    segment.bytes: "104857600"  # 100MB
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: reminders
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: taskflow-kafka
+spec:
+  partitions: 3
+  replicas: 1  # Set to 3 for production
+  config:
+    retention.ms: "604800000"  # 7 days
+    cleanup.policy: delete
+    max.message.bytes: "1048576"  # 1MB
+    segment.bytes: "104857600"  # 100MB
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: task-updates
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: taskflow-kafka
+spec:
+  partitions: 3
+  replicas: 1  # Set to 3 for production
+  config:
+    retention.ms: "86400000"  # 1 day (real-time sync, shorter retention)
+    cleanup.policy: delete
+    max.message.bytes: "1048576"  # 1MB
+    segment.bytes: "104857600"  # 100MB

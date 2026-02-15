@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TaskEvent",
+  "description": "Event published to task-events Kafka topic for all task CRUD operations",
+  "type": "object",
+  "required": ["event_id", "event_type", "task_id", "user_id", "timestamp", "correlation_id"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this event"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": ["task.created", "task.updated", "task.completed", "task.deleted"],
+      "description": "Type of task operation that triggered this event"
+    },
+    "task_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID of the affected task"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID of the user who performed the action"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the event occurred"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Correlation ID for distributed tracing"
+    },
+    "task_data": {
+      "type": ["object", "null"],
+      "description": "Full task object (null for task.deleted events)",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "title": { "type": "string" },
+        "description": { "type": ["string", "null"] },
+        "status": { "type": "string" },
+        "priority": { "type": "string", "enum": ["high", "medium", "low", "none"] },
+        "due_date": { "type": ["string", "null"], "format": "date-time" },
+        "recurrence_pattern": { "type": "string", "enum": ["none", "daily", "weekly", "monthly", "yearly"] },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "completed_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "previous_data": {
+      "type": ["object", "null"],
+      "description": "Previous task state (only for task.updated events)"
+    }
+  }
+}

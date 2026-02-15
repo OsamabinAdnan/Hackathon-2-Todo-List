@@ -1,0 +1,19 @@
+{{- if .Values.recurringService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "todo-chatbot.fullname" . }}-recurring
+  labels:
+    {{- include "todo-chatbot.labels" . | nindent 4 }}
+    app: recurring
+spec:
+  type: {{ .Values.recurringService.service.type }}
+  ports:
+    - port: {{ .Values.recurringService.service.port }}
+      targetPort: {{ .Values.recurringService.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "todo-chatbot.selectorLabels" . | nindent 4 }}
+    app: recurring
+{{- end }}

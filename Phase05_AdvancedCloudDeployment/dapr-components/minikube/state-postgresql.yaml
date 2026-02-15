@@ -1,0 +1,35 @@
+# Dapr State Store Component - PostgreSQL Backend
+# Phase 5: State Management (FR-025)
+# Environment: Minikube (Local Development)
+# Uses Neon PostgreSQL for conversation state
+
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+  namespace: default
+spec:
+  type: state.postgresql
+  version: v1
+  metadata:
+    # Connection string from Kubernetes secret
+    - name: connectionString
+      secretKeyRef:
+        name: todo-app-secrets
+        key: NEON_DB_URL
+    # Table name for Dapr state
+    - name: tableName
+      value: "dapr_state"
+    # Metadata table for key tracking
+    - name: metadataTableName
+      value: "dapr_metadata"
+    # Timeout settings
+    - name: timeout
+      value: "30s"
+    # Enable transactions for consistency
+    - name: actorStateStore
+      value: "false"
+auth:
+  secretStore: kubernetes-secrets
+scopes:
+  - backend

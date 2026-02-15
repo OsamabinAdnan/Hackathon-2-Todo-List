@@ -1,0 +1,22 @@
+# Dapr Cron Binding Component
+# Phase 5: Bindings (FR-027)
+# Environment: Minikube (Local Development)
+# Triggers periodic overdue task checks
+
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: cron-binding
+  namespace: default
+spec:
+  type: bindings.cron
+  version: v1
+  metadata:
+    # Run every 5 minutes
+    - name: schedule
+      value: "@every 5m"
+    # Direction: input only (receives triggers)
+    - name: direction
+      value: "input"
+scopes:
+  - backend

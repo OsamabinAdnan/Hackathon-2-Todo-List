@@ -1,0 +1,41 @@
+# Redpanda Helm values for Minikube (Local Development)
+# Single-node, minimal resources, no TLS, no auth
+# Kafka-compatible on port 9092
+
+statefulset:
+  replicas: 1
+  initContainers:
+    setDataDirOwnership:
+      enabled: true
+
+resources:
+  cpu:
+    cores: 1
+  memory:
+    container:
+      max: 1536Mi
+      min: 1536Mi
+
+storage:
+  persistentVolume:
+    enabled: false
+
+tls:
+  enabled: false
+
+external:
+  enabled: false
+
+auth:
+  sasl:
+    enabled: false
+
+console:
+  enabled: false
+
+monitoring:
+  enabled: false
+
+listeners:
+  kafka:
+    port: 9092

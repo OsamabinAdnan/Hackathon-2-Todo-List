@@ -1,0 +1,155 @@
+============================================================
+  Todo AI Chatbot - Phase 5 Deployment
+============================================================
+
+Congratulations! Your Todo AI Chatbot has been deployed.
+
+Chart Version: {{ .Chart.Version }}
+App Version: {{ .Chart.AppVersion }}
+
+============================================================
+  SERVICES DEPLOYED
+============================================================
+
+1. Frontend (Next.js):
+   {{- if contains "NodePort" .Values.frontend.service.type }}
+   - NodePort: {{ .Values.frontend.service.nodePort | default "auto-assigned" }}
+   - Access via: minikube service {{ include "todo-chatbot.fullname" . }}-frontend --url
+   {{- else if contains "LoadBalancer" .Values.frontend.service.type }}
+   - External IP: kubectl get svc {{ include "todo-chatbot.fullname" . }}-frontend -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+   {{- else }}
+   - ClusterIP: {{ .Values.frontend.service.port }}
+   {{- end }}
+
+2. Backend (FastAPI):
+   {{- if contains "NodePort" .Values.backend.service.type }}
+   - NodePort: {{ .Values.backend.service.nodePort | default "auto-assigned" }}
+   - Access via: minikube service {{ include "todo-chatbot.fullname" . }}-backend --url
+   {{- else if contains "LoadBalancer" .Values.backend.service.type }}
+   - External IP: kubectl get svc {{ include "todo-chatbot.fullname" . }}-backend -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+   {{- else }}
+   - ClusterIP: {{ .Values.backend.service.port }}
+   {{- end }}
+
+{{- if .Values.notificationService.enabled }}
+
+3. Notification Service:
+   - ClusterIP Port: {{ .Values.notificationService.service.port }}
+   - Subscribes to: {{ .Values.kafka.topics.reminders }}
+{{- end }}
+
+{{- if .Values.recurringService.enabled }}
+
+4. Recurring Task Service:
+   - ClusterIP Port: {{ .Values.recurringService.service.port }}
+   - Subscribes to: {{ .Values.kafka.topics.taskEvents }}
+{{- end }}
+
+============================================================
+  PHASE 5 FEATURES
+============================================================
+
+{{- if .Values.dapr.enabled }}
+Dapr Integration: ENABLED
+  - Pub/Sub Component: {{ .Values.dapr.pubsubName }}
+  - State Store: {{ .Values.dapr.stateStoreName }}
+  - Secret Store: {{ .Values.dapr.secretStoreName }}
+
+  Dapr App IDs:
+  - Backend: {{ .Values.dapr.backend.appId }}
+  - Frontend: {{ .Values.dapr.frontend.appId }}
+  {{- if .Values.notificationService.enabled }}
+  - Notification: {{ .Values.dapr.notificationService.appId }}
+  {{- end }}
+  {{- if .Values.recurringService.enabled }}
+  - Recurring: {{ .Values.dapr.recurringService.appId }}
+  {{- end }}
+{{- else }}
+Dapr Integration: DISABLED
+  To enable, set dapr.enabled=true in values.yaml
+{{- end }}
+
+{{- if .Values.kafka.enabled }}
+Kafka Integration: ENABLED
+  - Cluster: {{ .Values.kafka.clusterName }}
+  - Bootstrap: {{ .Values.kafka.bootstrapServers }}
+  - Topics: {{ .Values.kafka.topics.taskEvents }}, {{ .Values.kafka.topics.reminders }}, {{ .Values.kafka.topics.taskUpdates }}
+{{- else }}
+Kafka Integration: DISABLED
+  To enable, set kafka.enabled=true in values.yaml
+{{- end }}
+
+============================================================
+  VERIFICATION COMMANDS
+============================================================
+
+# Check all pods are running:
+kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+# Check Dapr sidecars (if enabled):
+{{- if .Values.dapr.enabled }}
+kubectl get pods -l dapr.io/enabled=true
+{{- end }}
+
+# View logs:
+kubectl logs -l app=backend --follow
+kubectl logs -l app=frontend --follow
+{{- if .Values.notificationService.enabled }}
+kubectl logs -l app=notification --follow
+{{- end }}
+{{- if .Values.recurringService.enabled }}
+kubectl logs -l app=recurring --follow
+{{- end }}
+
+# Health checks:
+kubectl exec -it deploy/{{ include "todo-chatbot.fullname" . }}-backend -- curl -s localhost:8000/health
+{{- if .Values.notificationService.enabled }}
+kubectl exec -it deploy/{{ include "todo-chatbot.fullname" . }}-notification -- curl -s localhost:8001/health
+{{- end }}
+{{- if .Values.recurringService.enabled }}
+kubectl exec -it deploy/{{ include "todo-chatbot.fullname" . }}-recurring -- curl -s localhost:8002/health
+{{- end }}
+
+============================================================
+  MINIKUBE ACCESS (Local Development)
+============================================================
+
+# Get Frontend URL:
+minikube service {{ include "todo-chatbot.fullname" . }}-frontend --url
+
+# Get Backend URL:
+minikube service {{ include "todo-chatbot.fullname" . }}-backend --url
+
+# Dashboard:
+minikube dashboard
+
+============================================================
+  TROUBLESHOOTING
+============================================================
+
+# If pods are not starting:
+kubectl describe pod -l app.kubernetes.io/instance={{ .Release.Name }}
+
+# Check events:
+kubectl get events --sort-by='.lastTimestamp'
+
+# Check Dapr logs (if enabled):
+{{- if .Values.dapr.enabled }}
+kubectl logs -l app=backend -c daprd
+{{- end }}
+
+# Check Kafka connectivity (if enabled):
+{{- if .Values.kafka.enabled }}
+kubectl exec -it {{ .Values.kafka.clusterName }}-kafka-0 -n {{ .Values.kafka.namespace }} -- \
+  bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+{{- end }}
+
+============================================================
+  DOCUMENTATION
+============================================================
+
+For full documentation, see:
+- Phase 5 Spec: specs/4-phase5-cloud-deployment/spec.md
+- Quickstart: specs/4-phase5-cloud-deployment/quickstart.md
+
+Happy tasking!

@@ -1,0 +1,7 @@
+# Ignore secret values file
+values-secret.yaml
+# Ignore environment files
+.env
+*.env
+.env.local
+.env.production

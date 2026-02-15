@@ -1,0 +1,12 @@
+# Recurring Task Service Dependencies
+# Phase 5: Event-driven recurring task processing via Dapr
+
+fastapi[standard]>=0.128.0
+uvicorn[standard]>=0.40.0
+httpx>=0.28.1
+sqlmodel>=0.0.31
+pydantic>=2.12.5
+pydantic-settings>=2.12.0
+psycopg2-binary>=2.9.11
+structlog>=24.1.0
+python-dateutil>=2.9.0
